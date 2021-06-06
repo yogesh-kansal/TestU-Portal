@@ -1,0 +1,11 @@
+.style {
+    font-size: large;
+    font-family: cursive;
+    font-style: inherit;
+    color: #808088;
+}
+
+.form_style {
+    margin: 4px auto;
+    padding: 20px 20px 20px 20px;
+}
