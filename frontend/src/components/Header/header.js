@@ -5,17 +5,6 @@ import {authContext} from '../../contexts/authContext'
 class Header extends Component {
     static contextType=authContext;
 
-    state = {
-        isNavOpen: false,
-        isLoggedin: false
-    }
-
-    toggleNav =()=> {
-        this.setState({
-            isNavOpen: !this.state.isNavOpen
-        })
-    }
-
     render() {
         const {isLoggedin}=this.context;
         return ( 
