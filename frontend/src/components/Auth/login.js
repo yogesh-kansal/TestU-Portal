@@ -1,18 +1,18 @@
 import  { Component } from 'react';
-import {Form, FormGroup, Label, Input,Button, FormFeedback} from 'reactstrap';
+import {Input,FormFeedback} from 'reactstrap';
+import {authContext} from '../../contexts/authContext';
 import './style.css'
+import axios from 'axios';
+import {baseUrl} from '../../assets/config';
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
+    static contextType=authContext;
 
-        this.state= {
-            email: '',
-            password: '',
-            touched: {
-                email: false,
-                pass: false
-            }
+    state= {
+        email: '',
+        password: '',
+        touched: {
+            email: false
         }
     }
 
@@ -24,9 +24,23 @@ class Login extends Component {
 
     handleSubmit=(e) => {
         e.preventDefault();
-        console.log(this.state);
+        let {email,password}=this.state;
+        let data={emailId:email,password};
+        
+        axios.post(baseUrl+'/user/login',data)
+        .then(res=> {
+            console.log(res)
+            this.context.modifyStatus(res.data.token);
+            this.context.modifyInfo(res.data.user);
 
-        alert("your data has been sent successfully"+JSON.stringify(this.state));
+            this.props.history.push('/home');
+        })
+        .catch(err=> {
+            if(err.response)
+                alert(err.response.data)
+            else    
+                alert(err.message)
+        });
     }
 
     //for touchng th box
@@ -37,38 +51,35 @@ class Login extends Component {
     }
 
     //validating the form
-    validate(email,pass) {
+    validate(email) {
         const err ={
-            email:'',
-            pass:''
+            email:''
         }
         let mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
         if(this.state.touched.email && !mailformat.test(email))
             err.email='Mail format is not correct';
-        if(this.state.touched.pass && pass.length<6)
-            err.pass='Password must be atleat of lenght 6';
-        return err;
+        return err
     }
 
     render() {
-        let errs=this.validate(this.state.email,this.state.password);
+        let errs=this.validate(this.state.email);
 
         return (
-            <div className="form_style">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-auto style">
-                            <h3>Log In</h3>
-                            <hr></hr>
-                        </div>
-                    </div>
-
+                <div className="container my-5">
                     <div className="row justify-content-center">
-                        <div className="col-12 col-sm-8">
-                            <Form onSubmit={this.handleSubmit}>
-                                <FormGroup row>
-                                    <Label htmlFor="email" className="style col-12 col-sm-6">Email Id</Label>
+                        <div className="col-11 col-lg-4 col-md-7 col-sm-9">
+                            <form onSubmit={this.handleSubmit} className="signup">
+
+                                <div className="row justify-content-center mt-1">
+                                    <div className="col-auto heading label">
+                                        <h3>Log In</h3>
+                                        <hr></hr>
+                                    </div>
+                                </div>
+
+                                <div className="row mb-3 px-3">
+                                    <label htmlFor="email" className="form-label label col-12 col-sm-6">Email Id</label>
                                     <Input type="email" id="email" className="col-12 col-sm-9" 
                                         placeholder="Enter User Email Id..."
                                         valid={errs.email===''}
@@ -78,31 +89,36 @@ class Login extends Component {
                                         onChange={this.handleChange}>
                                     </Input>
                                     <FormFeedback>{errs.email}</FormFeedback>
-                                </FormGroup>
+                                </div>
 
-                                <FormGroup row>
-                                    <Label htmlFor="password" className="style col-12 col-sm-6">Password</Label>
+                                <div className="row mb-3 px-3">
+                                    <label htmlFor="password" className="form-label label col-12 col-sm-6">Password</label>
                                     <Input type="password" id="password"  className="col-12 col-sm-9" 
                                         placeholder="Enter Your Password..."
-                                        valid={errs.pass===''}
-                                        invalid={errs.pass!==''}
+                                        valid={true}
                                         value={this.state.password}
-                                        onBlur={this.handleTouch('pass')}
                                         onChange={this.handleChange}>
                                     </Input>
-                                    <FormFeedback>{errs.pass}</FormFeedback>
-                                </FormGroup>
+                                </div>
 
-                                <FormGroup row>
-                                    <div className="col-7 ml-auto mr-auto col-auto">
-                                        <Button type="submit" color="primary" outline>login</Button>
+                                <div className="row mb-3 mt-1 justify-content-center">
+                                    <div className="col-auto">
+                                        <button type="submit" className="btn btn-lg btn-outline-primary ">login</button>
                                     </div>
-                                </FormGroup>
-                            </Form>
+                                </div>
+
+                                <div className="row mb-5 justify-content-center mb-3">
+                                    <div className="col-auto">
+                                        <p className="label">OR</p>
+                                        <hr></hr>
+                                    </div>
+                                </div>
+
+
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
         );        
     }
 }

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import {Form, FormGroup, Label, Input,Button, FormFeedback} from 'reactstrap';
+import {Input,FormFeedback} from 'reactstrap';
 import './style.css'
+import axios from 'axios';
+import {baseUrl} from '../../assets/config';
 
 class Signup extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state= {
-            email: '',
-            username: '',
-            password: '',
-            touched: {
-                email: false,
-                pass: false
-            }
+    state= {
+        email: '',
+        username: '',
+        password: '',
+        institute:'',
+        touched: {
+            user:false,
+            email: false,
+            pass: false,
+            institute: false
         }
     }
 
@@ -52,30 +53,45 @@ class Signup extends Component {
 
     handleSubmit=(e) => {
         e.preventDefault();
-        console.log(this.state);
 
-        alert("your data has been sent successfully"+JSON.stringify(this.state))
+        let {email,username,password,institute}=this.state;
+
+        let data={
+            emailId:email,
+            username,password,institute
+        }
+
+        axios.post(baseUrl+'/user/signup',data)
+        .then(res => {
+            console.log(res);
+            this.props.history.push('/login');
+        })
+        .catch(err => {
+            console.log(err.response);
+            alert(err.response.data);
+
+        });
     }
 
     render() {
         let errs=this.validate(this.state.username, this.state.email,this.state.password);
 
         return (
-            <div className="form_style">
-                <div className="container form">
-                    <div className="row">
-                        <div className="col-auto style">
-                            <h3>Sign Up</h3>
-                            <hr></hr>
-                        </div>
-                    </div>
-
+                <div className="container my-5">
                     <div className="row justify-content-center">
-                        <div className="col-11 col-sm-8">
-                            <Form onSubmit={this.handleSubmit}>
-                            <FormGroup row>
-                                    <Label htmlFor="username" className="style col-12 col-sm-6">Username</Label>
-                                    <Input type="text" id="username" className="col-12 col-sm-9" 
+                        <div className="col-11 col-lg-4 col-md-7 col-sm-9">
+                            <form onSubmit={this.handleSubmit} className="signup">
+
+                                <div className="row justify-content-center mt-1">
+                                    <div className="col-auto heading label">
+                                        <h3>Sign Up</h3>
+                                            <hr></hr>
+                                    </div>
+                                </div>
+                                
+                                <div className="row mb-3 px-3">
+                                    <label htmlFor="username" className="form-label label col-12 col-md-6">Username</label>
+                                    <Input type="text" id="username" className="col-11 col-md-7" 
                                         placeholder="Your choice..."
                                         valid={errs.user===''}
                                         invalid={errs.user!==''}
@@ -84,11 +100,11 @@ class Signup extends Component {
                                         onChange={this.handleChange}>
                                     </Input>                                    
                                     <FormFeedback>{errs.user}</FormFeedback>
-                                </FormGroup>
+                                </div>
 
-                                <FormGroup row>
-                                    <Label htmlFor="email" className="style col-12 col-sm-6">Email Id</Label>
-                                    <Input type="email" id="email" className="col-12 col-sm-9" 
+                                <div className="row mb-3  px-3">
+                                    <label htmlFor="email" className="form-label label col-12 col-md-6">Email Id</label>
+                                    <Input type="email" id="email" className="col-12 col-md-9" 
                                         placeholder="User Email Id..."
                                         valid={errs.email===''}
                                         invalid={errs.email!==''}
@@ -97,11 +113,11 @@ class Signup extends Component {
                                         onChange={this.handleChange}>
                                     </Input>
                                     <FormFeedback>{errs.email}</FormFeedback>
-                                </FormGroup>
+                                </div>
 
-                                <FormGroup row>
-                                    <Label htmlFor="password" className="style col-12 col-sm-6">Password</Label>
-                                    <Input type="password" id="password"  className="col-12 col-sm-9" 
+                                <div className="row mb-3  px-3">
+                                    <label htmlFor="password" className="form-label label col-12 col-md-6">Password</label>
+                                    <Input type="password" id="password"  className="col-12 col-md-9" 
                                         placeholder="Your Password..."
                                         valid={errs.pass===''}
                                         invalid={errs.pass!==''}
@@ -110,18 +126,28 @@ class Signup extends Component {
                                         onChange={this.handleChange}>
                                     </Input>
                                     <FormFeedback>{errs.pass}</FormFeedback>
-                                </FormGroup>
+                                </div>
 
-                                <FormGroup row>
+                                <div className="row mb-3  px-3">
+                                    <label htmlFor="institute" className="form-label label col-12 col-md-6">Institute</label>
+                                    <Input type="text" id="institute" className="col-12 col-md-9" 
+                                        placeholder="Your choice..."
+                                        valid={true}
+                                        value={this.state.institute}
+                                        onBlur={this.handleTouch('institute')}
+                                        onChange={this.handleChange}>
+                                    </Input>                                   
+                                </div>
+
+                                <div className="row justify-content-center mb-1">
                                     <div className="ml-auto mr-auto col-auto">
-                                        <Button type="submit" color="primary" outline >Signup</Button>
+                                        <button type="submit" className="btn btn-outline-primary ">Signup</button>
                                     </div>
-                                </FormGroup>
-                            </Form>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
         );     
     }
 }
