@@ -1,111 +1,85 @@
 import React, { Component } from 'react';
 import './header.css';
-import { Navbar, NavbarBrand, NavbarToggler,
-     NavItem, Collapse, Nav} from 'reactstrap'; 
 import {NavLink} from 'react-router-dom';
-
+import {authContext} from '../../contexts/authContext'
 class Header extends Component {
-    constructor(props) {
-        super(props);
+    static contextType=authContext;
 
-        this.state = {
-            isNavOpen: false,
-            isLoggedin: true
-        }
-
-        this.toggleNav =this.toggleNav.bind(this);
+    state = {
+        isNavOpen: false,
+        isLoggedin: false
     }
 
-    toggleNav()
-    {
+    toggleNav =()=> {
         this.setState({
             isNavOpen: !this.state.isNavOpen
         })
-
     }
 
     render() {
+        const {isLoggedin}=this.context;
         return ( 
             <>
-                <Navbar dark className="navbar" expand="md">
+                <nav class="navbar navbar-expand-lg navbar-dark">
                     <div className="container">
-                        <NavbarToggler onClick={this.toggleNav}/>
 
-                        <NavbarBrand className="mr-auto" href="/">
-                            <div className="title ml-4">Quiz-n-trivia</div>
-                        </NavbarBrand>
+                        <a className="navbar-brand me-auto" href="/">
+                            <div className="title ms-4">Exam Portal</div>
+                        </a>
 
-                        <Collapse isOpen={this.state.isNavOpen} navbar>
-                            <Nav navbar className="ml-auto nav">
-                                {!this.state.isLoggedin
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navId" aria-controls="navId" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                        <div class="collapse navbar-collapse" id="navId">
+                            <ul class="navbar-nav ms-auto me-4 nav">
+                                {!isLoggedin
                                     ?
                                     <>
-                                        <NavItem>
-                                            <NavLink className="nav-link" to="/login">
+                                        <li class="nav-item">
+                                            <a className="nav-link" to="/login">
                                                 <span className="fa fa-sign-in fa-lg"></span> Log in
-                                            </NavLink>
-                                        </NavItem>
-                                        <NavItem>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <NavLink className="nav-link" to="/signup">
                                                 <span className="fa fa-user-plus fa-lg"></span> Sign up
                                             </NavLink>
-                                        </NavItem>
+                                        </li>
                                     </>
                                     :
                                     <>
-                                        <NavItem>
+                                        <li class="nav-item">
                                             <NavLink className="nav-link" to="/home">
                                                 <span className="fa fa-home fa-lg"></span> Home
                                             </NavLink>
-                                        </NavItem>
+                                        </li>
 
-                                        <NavItem>
-                                            <NavLink className="nav-link" to="/Creates">
+                                        <li class="nav-item">
+                                            <NavLink className="nav-link" to="/creates">
                                                 <span className="fa fa-address-card fa-lg"></span> Creates
                                             </NavLink>
-                                        </NavItem>
+                                        </li>
 
-                                        <NavItem>
+                                        <li class="nav-item">
                                             <NavLink className="nav-link" to="/taken">
                                                 <span className="fa fa-info fa-lg"></span> Taken
                                             </NavLink>
-                                        </NavItem>
+                                        </li>
 
-                                        <NavItem>
+                                        <li class="nav-item">
                                             <NavLink className="nav-link ml-2" to="/user">
                                                 <span className="fa fa-user fa-lg"></span>
                                             </NavLink>
-                                        </NavItem>
+                                        </li>
                                     </>
                                 }
-                            </Nav>
-                        </Collapse>
+                            </ul>
+                        </div>
                     </div>
-                </Navbar>
+                </nav>
             </>
         );
     }
 }
 export default Header;
-
-/**
- *  <Jumbotron>
-                    <div className="container">
-                        <div className="row jumbo justify-content-center">
-                            <div className="col-12 col-sm-6">
-                                <h1>memeKeeper</h1>
-                                <p>Hey, Guys
-                                This is Yogesh Kansal prenseting this web app to keep your all memes at one place</p> 
-                            </div>
-                            <div className="col-12 col-sm">
-                                </div>
-                        </div>
-                    </div>
-                </Jumbotron>
- */
-
-                /**
-                 * <div className="image">
-                <img src="logo.jpg" alt="logo"/>
-                </div>
-                 */
