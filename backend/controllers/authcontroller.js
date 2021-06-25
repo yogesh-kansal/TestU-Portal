@@ -21,7 +21,7 @@ exports.signup=catchAsync(async (req,res,next) => {
     const user=await User.findOne({emailId: req.body.emailId});
 
     if(user) {
-        return next(new appError('Email id already exists!!!',403));
+        return next(new appError(`User with Email id ${req.body.emailId} already exists!!!`,403));
     }
 
     const token = jwt.sign(
@@ -35,6 +35,7 @@ exports.signup=catchAsync(async (req,res,next) => {
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password,10),
         emailId: req.body.emailId,
+        institute: req.body.institute
     });
 
     await nodemailer.sendMail_to_verify(newUser.username, newUser.emailId,token);
@@ -60,7 +61,7 @@ exports.login=catchAsync(async (req,res,next) => {
     const isMatched=bcrypt.compareSync(pass, user.password);
 
     if(!isMatched) {
-        return next(new appError('Incorrect password!!!',401));
+        return next(new appError('Incorrect password!!!',403));
     }
 
     if(!user.isVerified) {
@@ -70,12 +71,13 @@ exports.login=catchAsync(async (req,res,next) => {
     const token = jwt.sign(
         {emailId:email},
         config.secretKey,
-        {expiresIn:60*60}
+        {expiresIn:60*60*1000}
     );
 
     res.status(200).json({
         message:'logged in successfully!!!',
-        token
+        token,
+        user
     });
 });
 
