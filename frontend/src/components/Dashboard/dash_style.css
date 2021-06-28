@@ -1,0 +1,23 @@
+.ques {
+    border: 2px solid gray;
+    border-radius: 15px;
+    box-shadow: 3px 3px 0px 0px #888888;
+    background: white;
+}
+
+img {
+    z-index: -1;
+    opacity: 1;
+}
+
+.style {
+    margin-top: 30px;
+    font-size: large;
+    font-family: cursive;
+    font-style: inherit;
+    color: #808088;
+  }
+  
+.form-control .form-control:focus {
+    color: #808088;
+}

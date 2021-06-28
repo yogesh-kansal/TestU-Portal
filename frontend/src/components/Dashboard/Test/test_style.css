@@ -1,0 +1,35 @@
+.before {
+    margin-top: 10%;
+    padding:5px;
+    font-size: 24px;
+    font-family: cursive;
+    font-style: inherit;
+    border: 2px  rounded;
+    color: #808088;
+}
+
+.after {
+    margin-top: 30px;
+    padding:5px;
+    font-size: 24px;
+    font-family: cursive;
+    font-style: inherit;
+    border: 2px  rounded;
+    color: #808088;   
+}
+
+.time {
+  border-radius: 4px;
+  padding: 8px 10px 8px 10px;
+  background-color: rgba(214, 51, 51, 0.87);
+  font-size: 26px;
+  color: floralwhite;
+}
+
+.submit {
+    border-radius: 4px;
+  padding: 8px 10px 8px 10px;
+  font-size: 22px;
+  color: floralwhite;
+
+}
