@@ -21,6 +21,7 @@ exports.verifytoken = (req,res,next) => {
         }
         else {
             //console.log(decoded);
+            req.user=decoded.emailId;
             return next();
         }
     })

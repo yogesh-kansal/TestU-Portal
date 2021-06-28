@@ -11,12 +11,8 @@ exports.getAll=catchAsync(async (req,res,next) => {
     res.status(200).json(users);
 });
 
-exports.getUser=catchAsync(async (req,res,next) => {
-    var token= req.headers.authorization;
-    token=token.split(' ')[1];
-    const jwttoken = jwt.decode(token);
-    
-    let user=await User.findOne({emailId: jwttoken.emailId});
+exports.getUser=catchAsync(async (req,res,next) => {    
+    let user=await User.findOne({emailId: req.user});
 
     if(!user) {
         return next(new appError('User not found in our database!!!', 404));    
@@ -26,7 +22,6 @@ exports.getUser=catchAsync(async (req,res,next) => {
 });
 
 exports.deleteUser=catchAsync(async (req,res,next) => {
-    
     await User.findByIdAndRemove(req.params.id);
     res.status(200).send(`user with id ${req.params.id} is deleted successfully!!!`);
 });
