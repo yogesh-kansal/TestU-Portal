@@ -116,13 +116,15 @@ class NewTest extends Component {
             this.setState({
                 isLoading:false
             })
+           // console.log(res.data);
             alert(res.data.status);
+            this.props.history.push('/creates')
         })
         .catch(err => {
             this.setState({
                 isLoading:false
             })
-            
+            console.log(err.response);
             if(err.response)
             alert(err.response.data)
                 else

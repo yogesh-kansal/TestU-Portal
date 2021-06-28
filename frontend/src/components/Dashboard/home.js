@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Card, CardHeader, CardBody, Button } from 'reactstrap';
 import {authContext} from '../../contexts/authContext';
 import { baseUrl } from '../../assets/config';
 import axios from 'axios';
@@ -11,27 +10,30 @@ import img from '../../assets/not-found.png';
 const Render =(props) => {
     return (
         props.data.map((item,id) => {
-           // console.log(item,id);
             return(
-                <div key={id} className="col-12 mb-2">
-                    <Card>
-                        <CardHeader>
-                            <div className="row">
-                                <div className="col-auto mr-auto">
-                                    {item.test.name}
-                                </div>
-                                <div className="col-auto ml-auto">
-                                <Button color="secondary" onClick={() => {
+                <div key={id} className="col-12 col-md-9 col-sm-10 mb-25 mx-5">
+                    <div className="card">
+                            <div className="card-header border-0">
+                                <div className="row align-items-center">
+                                    <h4 className="col-auto">{item.test.name}</h4>
+                                    <div className="col-auto ms-auto">
+                                        <button type="button" className="btn btn-secondary" onClick={() => {
                                         props.modifyData(item)
                                         props.history.push(`/test/take/${item.test._id}`)
-                                    }}>view</Button>
+                                    }}>view</button>
+                                    </div>
+                                </div>
+                                <div className="row mt-1">
+                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{item.test.duration} hr</span>
+                                    <span className="col-auto ms-1 badge rounded-pill bg-danger">dl.:{item.test.deadline}</span>       
                                 </div>
                             </div>
-                        </CardHeader>
-                        <CardBody>
-                            {item.test.description}
-                        </CardBody>
-                    </Card>
+                            <div className="row align-items-center card-body">
+                                <div className="col-11">
+                                    <div className="row">{item.test.description}</div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             );
         })
@@ -87,20 +89,20 @@ class Home extends Component {
             <div className="container style">
                 <div className="row justify-content-center mb-4">
                     <div className="col-auto">
-                        <strong>Welcome to Quiz-n-trivia!!!</strong>
+                        <strong className="display-5 d-none">Welcome to Exam Portal!!!</strong>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col-7">
+                    <div className="col-12 col-md-8">
                         <div className="row justify-content-center">
                             <div className="col-auto">
-                                <strong>Availables</strong>
+                                <strong className="display-6">Availables</strong>
                                 <hr/>
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row justify-content-center">
                         {
                             this.state.isLoading
                             ?
@@ -110,15 +112,19 @@ class Home extends Component {
                                 ?
                                     <Render data={this.state.data} history={this.props.history} modifyData={this.context.modifyData}/>
                                 :
-                                    <img  className="not-found" src={img} alt="notfound" />
+                                <div className="row justify-content-center">
+                                    <div className="col-6">
+                                        <img  className="col-auto img-fluid" src={img} alt="notfound" /> 
+                                    </div>
+                                </div>
                         }
                         </div>
                     </div>
 
-                    <div className="col-5">
+                    <div className="col-4 d-none d-md-block">
                         <div className="row justify-content-center">
                             <div className="col-auto">
-                                <strong>Notifications</strong>
+                                <strong className="display-6">Notifications</strong>
                                 <hr/>
                             </div>
                         </div>

@@ -11,32 +11,43 @@ import img from '../../assets/not-found.png';
 const Render =(props) => {
     return (
         props.data.map((item,id) => {
-           // console.log(item,id);
             return(
-                <div key={id} className="col-12 mb-2">
-                    <Card>
-                        <CardHeader>
-                            <div className="row">
-                                <div className="col-auto mr-auto">
-                                    {item.test.name}
-                                </div>
-                                <div className="col-auto ml-auto">
-                                <Button color="secondary" onClick={()=> {
+                <div key={id} className="col-12 col-md-9 col-sm-10 mb-25">
+                    <div className="card">
+                            <div className="card-header border-0">
+                                <div className="row align-items-center">
+                                    <h4 className="col-auto">{item.test.name}</h4>
+                                    <div className="d-none d-sm-block col-auto ms-auto">
+                                        <button type="button" className="btn btn-secondary" onClick={() => {
                                         props.modifyData(item)
                                         props.history.push(`/test/view/${item.test._id}`)
-                                    }}>view</Button>
+                                    }}>view</button>
+                                    </div>
+                                </div>
+                                <div className="row mt-1">
+                                    <span className="col-auto ms-1 badge rounded-pill bg-warning">marks:{item.marks_obt}/{item.test.total}</span>
+                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{item.test.duration} hr</span>
+                                    <span className="col-auto ms-1 badge rounded-pill bg-danger">dl.:{item.test.deadline}</span>       
                                 </div>
                             </div>
-                        </CardHeader>
-                        <CardBody>
-                            {item.test.description}
-                        </CardBody>
-                    </Card>
+                            <div className="row align-items-center card-body">
+                                <div className="col-11">
+                                    <div className="row">{item.test.description}</div>
+                                    <div className="row d-block d-sm-none mx-5 mt-2">
+                                            <button type="button" className="btn btn-block btn-secondary" onClick={() => {
+                                            props.modifyData(item)
+                                            props.history.push(`/test/view/${item.test._id}`)
+                                        }}>view</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             );
         })
     );
 }
+
 
 class Attempts extends Component {
     static contextType=authContext;
@@ -65,7 +76,7 @@ class Attempts extends Component {
                 this.setState({
                     data:[...this.state.data,{
                         answers:item.answers || null,
-                        marks:item.totalMarks || null,
+                        marks_obt:item.marks_obt || 0,
                         test: res.data
                     }],
                     isLoading:false
@@ -88,13 +99,12 @@ class Attempts extends Component {
             <div className="container style">
                 <div className="row">
                     <div className="col-auto">
-                        <strong>Attempted</strong>
+                        <strong className="display-6">Attempted</strong>
                         <hr></hr>
                     </div>
                 </div>
 
                 <div className="row  justify-content-center">
-                    <div className="col-10">
                     {
                         this.state.isLoading
                         ?
@@ -104,9 +114,12 @@ class Attempts extends Component {
                             ?
                                 <Render data={this.state.data} history={this.props.history} modifyData={this.context.modifyData}/>
                             :
-                                <img  className="not-found" src={img} alt="notfound" />
+                            <div className="row justify-content-center">
+                                <div className="col-6">
+                                    <img  className="col-auto img-fluid" src={img} alt="notfound" /> 
+                                </div>
+                            </div>
                     }
-                    </div>
                 </div>
             </div>
         );
