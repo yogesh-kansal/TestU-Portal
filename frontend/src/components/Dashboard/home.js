@@ -11,16 +11,16 @@ const Render =(props) => {
     return (
         props.data.map((item,id) => {
             return(
-                <div key={id} className="col-12 col-md-9 col-sm-10 mb-25 mx-5">
+                <div key={id} className="col-12 col-md-9 col-sm-10 mb-5 mx-5">
                     <div className="card">
                             <div className="card-header border-0">
                                 <div className="row align-items-center">
                                     <h4 className="col-auto">{item.test.name}</h4>
                                     <div className="col-auto ms-auto">
                                         <button type="button" className="btn btn-secondary" onClick={() => {
-                                        props.modifyData(item)
+                                        props.modifyData(item.test)
                                         props.history.push(`/test/take/${item.test._id}`)
-                                    }}>view</button>
+                                    }}>Attempt</button>
                                     </div>
                                 </div>
                                 <div className="row mt-1">
@@ -86,7 +86,7 @@ class Home extends Component {
     render() {
         //const list=[{id:1,name:"yogesh"},{id:2,name:"yogesh"},{id:3,name:"yogesh"}];
         return (
-            <div className="container style">
+            <div className="container-fluid style">
                 <div className="row justify-content-center mb-4">
                     <div className="col-auto">
                         <strong className="display-5 d-none">Welcome to Exam Portal!!!</strong>
@@ -121,7 +121,7 @@ class Home extends Component {
                         </div>
                     </div>
 
-                    <div className="col-4 d-none d-md-block">
+                    <div className="col-3 d-none d-md-block">
                         <div className="row justify-content-center">
                             <div className="col-auto">
                                 <strong className="display-6">Notifications</strong>

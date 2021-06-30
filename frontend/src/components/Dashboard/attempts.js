@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Card, CardHeader, CardBody, Button } from 'reactstrap';
 import {authContext} from '../../contexts/authContext';
 import { baseUrl } from '../../assets/config';
 import axios from 'axios';
@@ -12,7 +11,7 @@ const Render =(props) => {
     return (
         props.data.map((item,id) => {
             return(
-                <div key={id} className="col-12 col-md-9 col-sm-10 mb-25">
+                <div key={id} className="col-12 col-md-9 col-sm-10 mb-5">
                     <div className="card">
                             <div className="card-header border-0">
                                 <div className="row align-items-center">
