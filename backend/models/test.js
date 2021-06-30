@@ -11,10 +11,10 @@ const questionschema=new Schema({
         required: [true, 'must have options']
     },
     correctOptions: {
-        type: String,
+        type: Array,
         required: [true, 'must have atleat one correct option']
     },
-    maxMarks: {
+    marks: {
         type: Number,
         default: 0
     }
@@ -22,31 +22,29 @@ const questionschema=new Schema({
 
 const testschema=new Schema({
     author: {
-        type: Schema.Types.ObjectId, 
-        ref: 'user',
-        required: [true,'quizz creator is reuired']
+        type: String, 
+        required: [true,'test creator is reuired']
     },
 
     name: {
         type: String,
-        default: 'Online Quiz'
+        default: 'Online Exam'
     },
 
     description: {
         type: String,
-        default:'Online Quiz'
+        default:'Online Exam'
     },
 
-    associatedUsers: [{
-        emailId: {
+    users: [{
+
             type: String
-        }
-    }],
+        }],
 
     questions: [questionschema],
-    
-    startTime: Date,
-    endTime: Date
+    total: {type:Number,default:0},    
+    duration: {type:String},
+    deadline: {type:String}
 },
 {
     timestamps: true
