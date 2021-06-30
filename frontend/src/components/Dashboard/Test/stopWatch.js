@@ -4,13 +4,22 @@ import './test_style.css'
 class Timer extends Component {
 
     state = {
-        currentTime:  20*1000
+        currentTime:  10*1000
       };
 
     componentDidMount() {
+      /* let time=this.props.time.split(':'),t=0;
+      t+=Number(time[0])*3600;
+      t+=Number(time[1])*60;
+      t*=1000;
+
+      this.setState({
+        currentTime:t
+      }) */
+      
         let timer = setInterval(() => {
             const newTime = this.state.currentTime - 10;
-            if (newTime > 0) {
+            if (newTime > 10) {
               this.setState({
                 currentTime: newTime
               });

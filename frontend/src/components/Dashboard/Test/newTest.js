@@ -90,7 +90,6 @@ class NewTest extends Component {
         this.setState({
             questions:questions
         })
-
     }
 
     handleChange =(e) => {
@@ -106,6 +105,14 @@ class NewTest extends Component {
         this.setState({
             isLoading:true
         })
+
+        let {isLoading, ...data}=this.state;
+
+        data.questions.forEach((ques,id) => {
+            data.questions[id].correctOptions=ques.correctOptions.split(' ').map(x =>parseInt(x,10));
+        });
+
+        console.log(data);
 
         axios.post(baseUrl+`/test/new`, this.state, {
             headers: {

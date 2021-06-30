@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Form, Label, Input } from 'reactstrap';
 import { authContext } from '../../../contexts/authContext';
 import Timer from './stopWatch';
 import './test_style.css';
+import axios from 'axios';
+import {baseUrl} from '../../../assets/config';
 
 class TakeTest extends Component {
     static contextType=authContext;
@@ -13,7 +14,6 @@ class TakeTest extends Component {
             isStarted: false,
             test:[],
             index:0
-            
         }
         
     this.isTimeup=this.isTimeup.bind(this);
@@ -23,7 +23,7 @@ class TakeTest extends Component {
     componentDidMount() {
          let answers=[];
         for(let ques of this.context.data.questions)
-            answers.push(-1);
+            answers.push([]);
         
         this.setState({
             test:{...this.context.data,answers}
@@ -40,7 +40,7 @@ class TakeTest extends Component {
         console.log(index,id);
         let {test}=this.state;
         let answers=[...test.answers];
-        answers[index]=id;
+        answers[index].push(id+1);
         test.answers=answers;
 
         this.setState({
@@ -52,7 +52,22 @@ class TakeTest extends Component {
         if(e)
             e.preventDefault();
         console.log(this.state);
-        alert('Exam submiited successfully!!!');
+
+        axios.post(baseUrl+`/test/submit`, this.state.test, {
+            headers: {
+                'Authorization': 'Bearer '+this.context.jwtToken
+            }
+        })
+        .then(res => {
+           alert(res.data);
+           this.props.history.push('/home');
+        })
+        .catch(err => {
+            if(err.response)
+                alert(err.response.data);
+            else
+                alert(err.message);
+        });
     }
 
     isTimeup() {
@@ -62,7 +77,6 @@ class TakeTest extends Component {
     
     render() {
         let {isStarted,test,index} =this.state;
-        console.log(isStarted, index)
         if(!isStarted)
             return(
                 <div className="container before">
@@ -70,8 +84,9 @@ class TakeTest extends Component {
                         <div className="col-10 col-md-6">
                             <p>You are going to attempt the test!!!</p>
                             <span className="d-block">Duration: {test.duration} hour</span>
+                            <span className="d-block">No. of ques.: {test.questions?test.questions.length:0}</span>
                             <span className="d-block">Marks: {test.total}</span>
-                            <span className="d-block">Wr. Email: {test.author}</span>
+                            <span className="d-block">Author Email: {test.author}</span>
                             <div className="row mt-3 mx-5">
                                 <button type="button" className="btn btn-block btn-primary"
                                     onClick={()=>{this.setState({isStarted:true})}}>START
@@ -94,7 +109,7 @@ class TakeTest extends Component {
                                         </div>
                                         <div className="ms-2 me-3 col-auto">
                                             <button type="submit" className="btn btn-danger fs-5 submit">
-                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000693.png'}></img>Submit</button>
+                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000693.png'} alt={'submit'}></img>Submit</button>
                                         </div>                            
                                 </div>
 
@@ -103,6 +118,9 @@ class TakeTest extends Component {
                                         <div className="row ms-1">
                                             <div className="col-auto">
                                                 Question {index+1}.<hr></hr>
+                                            </div>
+                                            <div className="col-auto ms-auto me-2">
+                                                marks: {test.questions[index].marks}
                                             </div>
                                         </div>
                                         <div className="row mx-1">
@@ -123,7 +141,7 @@ class TakeTest extends Component {
                                                 return(
                                                     <div key={id} className="col-12 mb-2 form-check">
                                                         <input className="form-check-input" type="radio" 
-                                                            checked={test.answers[index]===id}
+                                                            checked={test.answers[index].indexOf(id+1)>-1}
                                                             onChange={(e) =>this.changeAns(index,id)}>
                                                         </input>
                                                         <label className="form-check-label" for="">
@@ -137,16 +155,14 @@ class TakeTest extends Component {
 
                                 <div className="row justify-content-center test-bottom">
                                         <div className="me-1 col-auto">
-                                            <button type="button" className="btn text-white prev" disabled={index==0} onClick={() =>this.changeIndex(-1)}>
-                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000690.png'}></img>Previous</button>
+                                            <button type="button" className="btn text-white prev" disabled={index===0} onClick={() =>this.changeIndex(-1)}>
+                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000690.png'} alt={'left'}></img>Previous</button>
                                         </div> 
                                         <div className="ms-1 col-auto">
                                             <button type="button" className="btn text-white next" disabled={test.questions.length===index+1} onClick={() =>this.changeIndex(1)}>
-                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000689.png'}></img>Next</button>
+                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000689.png'} alt={'right'}></img>Next</button>
                                         </div>                            
                                 </div>
-
-                                
                             </form>
                         </div>
                     </div>
@@ -154,5 +170,5 @@ class TakeTest extends Component {
             );   
     }
 }
-console.log(Component)
+
 export default TakeTest;
