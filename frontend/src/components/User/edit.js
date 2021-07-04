@@ -46,7 +46,7 @@ class Edit extends Component {
         if(this.state.touched.ins && ins.length===0)
             err.ins='Addess must be non-empty';
         if(this.state.touched.pass && pass.length<6)
-            err.pass='Password must be atleat of lenght 6';
+            err.pass='Password must be atleast of lenght 6';
         return err;
     }
     
@@ -79,7 +79,7 @@ class Edit extends Component {
 
         axios.patch(baseUrl+`/user/edit/${user._id}`, data, {
             headers: {
-                'Authorization': 'basic '+this.context.jwtToken
+                'Authorization': 'Bearer '+this.context.accesstoken
             }
         })
         .then(res => {
@@ -111,7 +111,7 @@ class Edit extends Component {
 
         axios.patch(baseUrl+`/user/reset_password/${this.context.user._id}`, data, {
             headers: {
-                'Authorization': 'basic '+this.context.jwtToken
+                'Authorization': 'Bearer '+this.context.accesstoken
             }
         })
         .then(res => {

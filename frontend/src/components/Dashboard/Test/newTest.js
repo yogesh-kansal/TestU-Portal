@@ -116,7 +116,7 @@ class NewTest extends Component {
 
         axios.post(baseUrl+`/test/new`, this.state, {
             headers: {
-                'Authorization': 'Bearer '+this.context.jwtToken
+                'Authorization': 'Bearer '+this.context.accesstoken
             }
         })
         .then(res => {
@@ -125,6 +125,7 @@ class NewTest extends Component {
             })
            // console.log(res.data);
             alert(res.data.status);
+            this.context.modifyInfo(res.data.user);
             this.props.history.push('/creates')
         })
         .catch(err => {

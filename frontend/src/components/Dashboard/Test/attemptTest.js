@@ -23,7 +23,10 @@ class TakeTest extends Component {
     componentDidMount() {
          let answers=[];
         for(let ques of this.context.data.questions)
+        {
+            console.log(ques)
             answers.push([]);
+        }
         
         this.setState({
             test:{...this.context.data,answers}
@@ -55,11 +58,12 @@ class TakeTest extends Component {
 
         axios.post(baseUrl+`/test/submit`, this.state.test, {
             headers: {
-                'Authorization': 'Bearer '+this.context.jwtToken
+                'Authorization': 'Bearer '+this.context.accesstoken
             }
         })
         .then(res => {
-           alert(res.data);
+           alert(res.data.status);
+           this.context.modifyInfo(res.data.user);
            this.props.history.push('/home');
         })
         .catch(err => {
