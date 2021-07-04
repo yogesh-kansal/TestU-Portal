@@ -40,7 +40,7 @@ const userschema = new Schema({
         answers: {
             type: Array,
         },
-        totalMarks: {
+        marks_obt: {
             type: Number,
             default: 0
         }
