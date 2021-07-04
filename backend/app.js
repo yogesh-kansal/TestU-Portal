@@ -5,9 +5,9 @@ const mongoose = require('mongoose');
 const config=require('./utils/config');
 const AppError=require('./utils/appError');
 const cors=require('cors');
-const nodemailer =require('./utils/mailer_config');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/tests');
+const {refreshtoken} =require('./utils/verifyToken');
 
  
 //connecting to database 
@@ -25,22 +25,18 @@ mongoose.connection.once('open', () => {
 });
 
 
-//setting up nodemailer account
-nodemailer.setup()
-.then(() => {console.log(`nodemailer set-up is successfull!!!`)})
-.catch((err) => {console.log(`nodemailer set-up is not successfull!!!\n${err}`)})
-
 var app = express();
 
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'http://localhost:3000', credentials:true
+  origin: config.clientUrl, credentials:true
   }));
 
 //routes
+app.get('/refreshtoken',refreshtoken);
 app.use('/user', usersRouter);
 app.use('/test',testRouter);
 

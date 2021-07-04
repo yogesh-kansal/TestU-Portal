@@ -13,7 +13,7 @@ const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
 const appError = require('../utils/appError');
 const config = require('../utils/config');
-const nodemailer =require('../utils/send_mail');
+const {sendMail_to_verify, sendMail_to_change_pass} =require('../utils/send_mail');
 
 
 exports.signup=catchAsync(async (req,res,next) => {
@@ -26,8 +26,8 @@ exports.signup=catchAsync(async (req,res,next) => {
 
     const token = jwt.sign(
         {emailId:req.body.emailId},
-        config.secretKey,
-        {expiresIn:10*60}
+        config.genKey,
+        {expiresIn:10*60*1000}
     );
     //token is valid till 10 minutes only
 
@@ -38,7 +38,7 @@ exports.signup=catchAsync(async (req,res,next) => {
         institute: req.body.institute
     });
 
-    await nodemailer.sendMail_to_verify(newUser.username, newUser.emailId,token);
+    await sendMail_to_verify(newUser.username, newUser.emailId,token);
     await newUser.save();
 
     res.status=200;
@@ -68,15 +68,22 @@ exports.login=catchAsync(async (req,res,next) => {
         return next(new appError('Account is not verified!!!',403));
     }
 
-    const token = jwt.sign(
-        {emailId:email},
+    const accesstoken = jwt.sign(
+        {userId:user._id},
         config.secretKey,
-        {expiresIn:60*60*1000}
+        {expiresIn:60*60*1000} //expires in 1 hour
+    );
+
+    const refreshtoken = jwt.sign(
+        {userId:user._id},
+        config.refreshKey,
+        {expiresIn:30*60*60*1000} //expires in 1 month
     );
 
     res.status(200).json({
         message:'logged in successfully!!!',
-        token,
+        accesstoken,
+        refreshtoken,
         user
     });
 });
@@ -102,8 +109,7 @@ exports.verifyUser=catchAsync(async (req,res,next) => {
         return next(new appError('User not found in our database!!!', 404));    
     }
 
-    //because timestamp is in miliseconds
-    if(Date.now() >(1000*jwttoken.exp)) {
+    if(Date.now() >(jwttoken.exp)) {
         return next(new appError('Token is expired!!!', 401));    
     }
 
@@ -115,14 +121,17 @@ exports.verifyUser=catchAsync(async (req,res,next) => {
 
 exports.forgotPassword=catchAsync(async (req,res,next) => {
 
+    if(!req.query.email)
+        return next(new appError('email is not specified!!!',401));
+
     const emailId=req.query.email;
 
     const token = jwt.sign(
         {emailId:emailId},
-        config.secretKey,
-        {expiresIn:10*60}
+        config.genKey,
+        {expiresIn:60*60*1000}
     );
 
-    await nodemailer.sendMail_to_change_pass(emailId,token);
+    await sendMail_to_change_pass(emailId,token);
     res.status(200).send(`mail has been sent to ${emailId}`);
 }); 

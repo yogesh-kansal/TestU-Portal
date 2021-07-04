@@ -2,6 +2,7 @@ const Test = require('../models/test');
 const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
 const appError = require('../utils/appError');
+const {sendMail_to_users} =require('../utils/send_mail');
 
 exports.getTest=catchAsync(async (req,res,next) => {
     let test=await Test.findById(req.params.id);
@@ -14,7 +15,6 @@ exports.getTest=catchAsync(async (req,res,next) => {
 });
 
 exports.getTestsList=catchAsync(async (req,res,next) => {
-
     console.log(req.query);
     let type=req.query.type;
 
@@ -65,6 +65,10 @@ exports.newTest=catchAsync(async (req,res,next) => {
     let user=await User.findByIDAndUpdate(req.userId,{
         $push:{createdList:test._id}
     })
+
+    test.users.forEach(catchAsync(async (email) => {
+        await sendMail_to_users(email,test);
+    }));
 
     res.status(200).json({
         status: 'Test has been created successfully',
