@@ -21,3 +21,7 @@ img {
 .form-control .form-control:focus {
     color: #808088;
 }
+
+.card {
+    border: none;
+}
