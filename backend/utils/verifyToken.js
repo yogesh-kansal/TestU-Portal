@@ -30,6 +30,7 @@ exports.verifytoken = (req,res,next) => {
 
 exports.refreshtoken =(req,res,next) => {
     var token= req.headers.authorization;
+    console.log(token)
     
     if(!token) {
         res.status(403).json({status:'refresh token is not there'});
