@@ -56,41 +56,26 @@ class Attempts extends Component {
     }
 
     componentDidMount() {
-        let {user} =this.context;
-
-        if(user.availableList.length===0)
-        {
+        axios.get(baseUrl+'/test?type=taken',{
+            headers: {
+                'Authorization': 'Bearer '+this.context.accesstoken
+            }
+        })
+        .then(res => {
+            this.setState({
+                data:res.data,
+                isLoading:false
+            })
+        })
+        .catch(err => {
             this.setState({
                 isLoading:false
             })
-        }
 
-          user.takenList.forEach( item => {
-            axios.get(baseUrl+'/test/'+item.id,{
-                headers: {
-                    'Authorization': 'basic '+this.context.jwtToken
-                }
-            })
-            .then(res => {
-                this.setState({
-                    data:[...this.state.data,{
-                        answers:item.answers || null,
-                        marks_obt:item.marks_obt || 0,
-                        test: res.data
-                    }],
-                    isLoading:false
-                })
-            })
-            .catch(err => {
-                this.setState({
-                    isLoading:false
-                })
-
-                if(err.response)
-                    alert(err.response.data)
-                else
-                    alert(err.message)
-            });
+            if(err.response)
+                alert(err.response.data)
+            else
+                alert(err.message)
         });
     }
     render() {

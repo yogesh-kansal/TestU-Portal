@@ -55,41 +55,29 @@ class Creates extends Component {
     }
 
     componentDidMount() {
-        let {user} =this.context;
-
-        if(user.availableList.length===0)
-        {
+        axios.get(baseUrl+'/test?type=created',{
+            headers: {
+                'Authorization': 'Bearer '+this.context.accesstoken
+            }
+        })
+        .then(res => {
+            this.setState({
+                data:res.data,
+                isLoading:false
+            })
+        })
+        .catch(err => {
             this.setState({
                 isLoading:false
             })
-        }
 
-        user.createdList.forEach( item => {
-            axios.get(baseUrl+'/test/'+item,{
-                headers: {
-                    'Authorization': 'Bearer '+this.context.jwtToken
-                }
-            })
-            .then(res => {
-                this.setState({
-                    data:[...this.state.data,{
-                        test: res.data
-                    }],
-                    isLoading:false
-                })
-            })
-            .catch(err => {
-                this.setState({
-                    isLoading:false
-                })
-
-                if(err.response)
-                    alert(err.response.data)
-                else
-                    alert(err.message)
-            });
+            if(err.response)
+                alert(err.response.data)
+            else
+                alert(err.message)
         });
     }
+
     render() {
         //console.log(this.props);
         return (

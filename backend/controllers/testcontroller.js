@@ -5,7 +5,50 @@ const appError = require('../utils/appError');
 
 exports.getTest=catchAsync(async (req,res,next) => {
     let test=await Test.findById(req.params.id);
+
+    if(!test) {
+        return next(new appError('test is not found',404));
+    }
+
     res.status(200).json(test);
+});
+
+exports.getTestsList=catchAsync(async (req,res,next) => {
+
+    console.log(req.query);
+    let type=req.query.type;
+
+    console.log(type)
+
+    if(!type) 
+        return next(new appError('query type is not specified!!!',403));
+
+    let user=await User.findById(req.userId);
+    let list=[];
+    if(type==='available')
+        list=user.availableList;
+    else if(type==='taken')
+        list=user.takenList;
+    else if(type==='created')
+        list=user.createdList;
+    else
+        return next(new appError('query type is wrong!!!',404));
+
+    data=[];
+
+    list.forEach(catchAsync( async (id) => {
+        let test=await Test.findById(id);
+        data.push({test:test});
+    }))
+
+    if(type==='taken') {
+        list.forEach((id,pos) => {
+            data[pos].answers=user.takenList[pos].answers;
+            data[pos].marks_obt=user.takenList[pos].marks_obt;
+        })
+    }
+
+    res.status(200).json(data);
 });
 
 exports.newTest=catchAsync(async (req,res,next) => {
@@ -19,14 +62,13 @@ exports.newTest=catchAsync(async (req,res,next) => {
     await test.save();
   //  console.log(test,req.user);
 
-    await User.updateOne({emailId:req.user},{
+    let user=await User.findByIDAndUpdate(req.userId,{
         $push:{createdList:test._id}
     })
 
-
     res.status(200).json({
         status: 'Test has been created successfully',
-        test
+        user
     })
 });
 
@@ -55,7 +97,7 @@ exports.submitTest=catchAsync(async (req,res,next) => {
 
     console.log(marks);
 
-    await User.updateOne({emailId:req.user}, {
+    let user=await User.findByIDAndUpdate(req.userId, {
         $push: 
             {
                 takenList:{
@@ -66,13 +108,10 @@ exports.submitTest=catchAsync(async (req,res,next) => {
             }
     });
 
-    res.status(200).send('Exam has been submitted successfully!!!');
-});
-
-exports.getAll=catchAsync(async (req,res,next) => {
-    
-    let tests=await Test.find();
-    res.status(200).json(tests);
+    res.status(200).json({
+        status: 'Exam has been submitted successfully!!!',
+        user
+    });
 });
 
 exports.deleteTest=catchAsync(async (req,res,next) => {
