@@ -30,8 +30,7 @@ class Login extends Component {
         axios.post(baseUrl+'/user/login',data)
         .then(res=> {
             console.log(res)
-            this.context.modifyStatus(res.data.token);
-            this.context.modifyInfo(res.data.user);
+            this.context.modifyAuthStatus(res.data);
 
             this.props.history.push('/home');
         })
@@ -69,7 +68,7 @@ class Login extends Component {
                 <div className="container my-5">
                     <div className="row justify-content-center">
                         <div className="col-11 col-lg-4 col-md-7 col-sm-9">
-                            <form onSubmit={this.handleSubmit} className="signup">
+                            <form onSubmit={this.handleSubmit} className="">
 
                                 <div className="row justify-content-center mt-1">
                                     <div className="col-auto heading label">
@@ -101,17 +100,13 @@ class Login extends Component {
                                     </Input>
                                 </div>
 
-                                <div className="row mb-3 mt-1 justify-content-center">
-                                    <div className="col-auto">
-                                        <button type="submit" className="btn btn-lg btn-outline-primary ">login</button>
-                                    </div>
+                                <div className="row my-3 mx-3">
+                                        <button type="submit" className="btn btn-primary btn-block sub">Login</button>
                                 </div>
 
-                                <div className="row mb-5 justify-content-center mb-3">
-                                    <div className="col-auto">
-                                        <p className="label">OR</p>
-                                        <hr></hr>
-                                    </div>
+                                <div class="row mt-3">
+                                    <p class="text-center">Don't have account? <a className=" link-info fs-5" id="link" href="/signup">Sign up
+                                        here</a></p>
                                 </div>
 
 

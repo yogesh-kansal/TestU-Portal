@@ -64,6 +64,7 @@ class Signup extends Component {
         axios.post(baseUrl+'/user/signup',data)
         .then(res => {
             console.log(res);
+            alert('Plaese verifiy your account!!!\n An Email has been send to you assoicated mail-id')
             this.props.history.push('/login');
         })
         .catch(err => {
@@ -80,7 +81,7 @@ class Signup extends Component {
                 <div className="container my-5">
                     <div className="row justify-content-center">
                         <div className="col-11 col-lg-4 col-md-7 col-sm-9">
-                            <form onSubmit={this.handleSubmit} className="signup">
+                            <form onSubmit={this.handleSubmit} className="">
 
                                 <div className="row justify-content-center mt-1">
                                     <div className="col-auto heading label">
@@ -139,10 +140,12 @@ class Signup extends Component {
                                     </Input>                                   
                                 </div>
 
-                                <div className="row justify-content-center mb-1">
-                                    <div className="ml-auto mr-auto col-auto">
-                                        <button type="submit" className="btn btn-outline-primary ">Signup</button>
-                                    </div>
+                                <div className="row my-3 mx-3 ">
+                                        <button type="submit" className="btn btn-primary btn-block sub">Get started here</button>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <a className="text-center link-info fs-5" id="link" href="/login">Alreday have an Account?</a>
                                 </div>
                             </form>
                         </div>

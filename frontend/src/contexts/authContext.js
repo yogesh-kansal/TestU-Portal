@@ -29,6 +29,9 @@ class AuthContextProvider extends Component {
         {
             let token=localStorage.getItem('refresh');
             console.log(token);
+
+            if(!token)
+                return ;
             axios.get(baseUrl+'/refreshtoken', {
                 headers: {
                     'Authorization': 'Bearer '+token
