@@ -6,43 +6,63 @@ import Home from './components/Dashboard/home';
 import Attempts from './components/Dashboard/attempts';
 import Creates from './components/Dashboard/creates';
 
-import NewQuiz from './components/Dashboard/Quiz/newQuiz';
-import TakeQuiz from './components/Dashboard/Quiz/takeQuiz';
+import NewTest from './components/Dashboard/Test/newTest';
+import TakeTest from './components/Dashboard/Test/attemptTest';
+import ViewTest from './components/Dashboard/Test/viewTest';
 
 import Header from './components/Header/header';
 import Footer from './components/Footer/footer';
 
 import Login from './components/Auth/login';
 import Signup from './components/Auth/signup';
+import ForgotPswd from './components/Auth/forgot_pswd';
 
 import Profile from './components/User/profile';
 import Edit from './components/User/edit';
 
 class Routers extends Component {
     static contextType=authContext;
+
+    componentDidMount() {
+      console.log('mounted');
+      this.context.isLoggedin();
+    }
+
+    componentDidUpdate(){
+      console.log('updated')
+    }
   
     render() {
-     console.log(this.context);
+      let {loginStatus}=this.context;
+      console.log(loginStatus)
       return (
         <div className="App">
             <BrowserRouter>
-                <Header />
-      
-                <Switch>
-                  <Route path="/login" component={Login}/>
-                  <Route path="/signup" component={Signup}/>
-                  <Route path="/home" component={Home}/>
-                  <Route path="/creates" component={Creates}/>
-                  <Route path="/taken" component={Attempts}/>
-  
-                  <Route exact path="/quizz/new" component={NewQuiz}/>
-                  <Route path="/quizz/take/:id" component={TakeQuiz}/>
-                  <Route path="/quizz/view/:id" component={TakeQuiz}/>
-        
-                  <Route exact path="/user" component={Profile}/>
-                  <Route path="/user/edit" component={Edit}/>
-                  <Redirect to={!1?"/signup":"/signup"}/>
-                </Switch>
+                <Header/>
+
+                {!loginStatus
+                ?
+                  <Switch>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/signup" component={Signup}/>
+                    <Route path='/forgotPswd' component={ForgotPswd}/>
+                    <Redirect to={"/signup"}/>
+                  </Switch>
+                :
+                  <Switch>
+                    <Route path="/home" component={Home}/>
+                    <Route path="/creates" component={Creates}/>
+                    <Route path="/taken" component={Attempts}/>
+    
+                    <Route exact path="/test/new" component={NewTest}/>
+                    <Route path="/test/take/:id" component={TakeTest}/>
+                    <Route path="/test/view/:id" component={ViewTest}/>
+          
+                    <Route exact path="/user" component={Profile}/>
+                    <Route path="/user/edit" component={Edit}/>
+                    <Redirect to={"/home"}/>
+                  </Switch>
+                }
       
                 <Footer />       
             </BrowserRouter>
