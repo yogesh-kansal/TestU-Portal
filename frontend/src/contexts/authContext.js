@@ -55,6 +55,16 @@ class AuthContextProvider extends Component {
         }
     }
 
+    logOut= () => {
+        localStorage.clear();
+        this.setState({
+            loginStatus:false,
+        accesstoken:null,
+        user:null,
+        data:null
+        });
+    }
+
     modifyInfo=(user) => {
         this.setState({
             user
@@ -73,7 +83,8 @@ class AuthContextProvider extends Component {
                         modifyAuthStatus:this.modifyAuthStatus,
                         isLoggedin:this.isLoggedin,
                         modifyInfo:this.modifyInfo,
-                        modifyData:this.modifyData}
+                        modifyData:this.modifyData,
+                        logOut:this.logOut}
             }>
                 {this.props.children}
             </authContext.Provider>
@@ -82,27 +93,3 @@ class AuthContextProvider extends Component {
 }
 
 export default AuthContextProvider;
-
-
-/**
-isLoggedin: true,
-        user:{
-            "isVerified": true,
-            "createdList": [
-                "60dcd32ebc64fd18f4ea7648","60da1fae33cf9913c42e0503"
-            ],
-            "availableList": ["60dcd32ebc64fd18f4ea7648","60da1fae33cf9913c42e0503"],
-            "_id": "60a80c6bc928253054a54515",
-            "username": "admin",
-            "password": "$2b$10$2xtjdfcDhrghf8F24iJPyey7Yll7l3Fr7NneZcqW8wOGkZTlxnelm",
-            "emailId": "admin@gmail.com",
-            "createdAt": "2021-05-21T19:39:27.117Z",
-            "updatedAt": "2021-06-13T20:00:14.473Z",
-            "__v": 0,
-            "institute": "IIT kanpur",
-            "takenList": [{id:"60dcd32ebc64fd18f4ea7648", answers:[[1],[1,3]],marks_obt:20},{id:"60da1fae33cf9913c42e0503"}]
-        },
-        accesstoken:null,
-        jwtToken:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbElkIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNjIzNjE0MDgzLCJleHAiOjE2MjcyMTQwODN9.gsiBlUNvy_7rTGLva46anK_vZVpyHXBPmCr01BWbE28',
-        data:null
- */
