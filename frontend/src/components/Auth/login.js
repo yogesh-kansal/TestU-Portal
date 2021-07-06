@@ -9,6 +9,7 @@ class Login extends Component {
     static contextType=authContext;
 
     state= {
+        isForgot: false,
         email: '',
         password: '',
         touched: {
@@ -40,6 +41,21 @@ class Login extends Component {
             else    
                 alert(err.message)
         });
+    }
+
+    reset=() => {
+        axios.get(baseUrl+`/user/forgot_password?email=${this.state.email}`)
+        .then(res => {
+            alert(res.data)
+        })
+        .catch(err => {
+            if(err.response)
+                alert(err.response)
+            else
+                alert(err.message)
+        })
+
+
     }
 
     //for touchng th box
@@ -90,21 +106,33 @@ class Login extends Component {
                                     <FormFeedback>{errs.email}</FormFeedback>
                                 </div>
 
-                                <div className="row mb-3 px-3">
-                                    <label htmlFor="password" className="form-label label col-12 col-sm-6">Password</label>
-                                    <Input type="password" id="password"  className="col-12 col-sm-9" 
-                                        placeholder="Enter Your Password..."
-                                        valid={true}
-                                        value={this.state.password}
-                                        onChange={this.handleChange}>
-                                    </Input>
-                                </div>
+                                {!this.state.isForgot
+                                ?
+                                <>
+                                    <div className="row mb-3 px-3">
+                                        <label htmlFor="password" className="form-label label col-12 col-sm-6">Password</label>
+                                        <Input type="password" id="password"  className="col-12 col-sm-9" 
+                                            placeholder="Enter Your Password..."
+                                            valid={true}
+                                            value={this.state.password}
+                                            onChange={this.handleChange}>
+                                        </Input>
+                                    </div>
 
-                                <div className="row my-3 mx-3">
+                                    <div className="row my-3 mx-3">
                                         <button type="submit" className="btn btn-primary btn-block sub">Login</button>
-                                </div>
+                                    </div>
 
-                                <div class="row mt-3">
+                                    <div class="row">
+                                        <p class="text-center">Forgot password? <span className="link-info" id="link" onClick={() =>this.setState({isForgot:true})}>Click Me</span></p>
+                                    </div>
+                            </>
+                             :
+                             <div className="row my-3 mx-3">
+                                <button type="btn" className="btn btn-primary btn-block sub" onClick={this.reset}>Send Email to reset it</button>
+                            </div>
+                            }
+                                <div class="row">
                                     <p class="text-center">Don't have account? <a className=" link-info fs-5" id="link" href="/signup">Sign up
                                         here</a></p>
                                 </div>
