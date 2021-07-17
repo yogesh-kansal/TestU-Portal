@@ -1,6 +1,7 @@
 import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom';
 import { Component } from 'react';
 import {authContext} from './contexts/authContext';
+import './App.css';
 
 import Home from './components/Dashboard/home';
 import Attempts from './components/Dashboard/attempts';
@@ -37,6 +38,7 @@ class Routers extends Component {
       console.log(loginStatus)
       return (
         <div className="App">
+          <div className="wrap">
             <BrowserRouter>
                 <Header/>
 
@@ -62,10 +64,10 @@ class Routers extends Component {
                     <Route path="/user/edit" component={Edit}/>
                     <Redirect to={"/home"}/>
                   </Switch>
-                }
-      
-                <Footer />       
+                }      
             </BrowserRouter>
+            </div>
+            <Footer/>
         </div>
       );
   
