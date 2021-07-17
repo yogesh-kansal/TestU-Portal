@@ -27,7 +27,7 @@ exports.signup=catchAsync(async (req,res,next) => {
     const token = jwt.sign(
         {emailId:req.body.emailId},
         config.genKey,
-        {expiresIn:10*60*1000}
+        {expiresIn:10*60}
     );
     //token is valid till 10 minutes only
 
@@ -71,13 +71,13 @@ exports.login=catchAsync(async (req,res,next) => {
     const accesstoken = jwt.sign(
         {userId:user._id},
         config.secretKey,
-        {expiresIn:60*60*1000} //expires in 1 hour
+        {expiresIn:60*60} //expires in 1 hour
     );
 
     const refreshtoken = jwt.sign(
         {userId:user._id},
         config.refreshKey,
-        {expiresIn:30*60*60*1000} //expires in 1 month
+        {expiresIn:30*60*60} //expires in 1 month
     );
 
     res.status(200).json({
@@ -108,14 +108,13 @@ exports.verifyUser=catchAsync(async (req,res,next) => {
     if(!user) {
         return next(new appError('User not found in our database!!!', 404));    
     }
-
-    if(Date.now() >(jwttoken.exp)) {
+    if(Date.now() >(jwttoken.exp*1000)) {
         return next(new appError('Token is expired!!!', 401));    
     }
 
     user.isVerified=true;
     await user.save();
-    res.status(200).send('User verified succefully!!!')
+    res.redirect(`${config.baseUrl}/verify.html`);
 });
 
 

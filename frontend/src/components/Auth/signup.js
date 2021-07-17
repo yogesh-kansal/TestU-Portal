@@ -3,9 +3,11 @@ import {Input,FormFeedback} from 'reactstrap';
 import './style.css'
 import axios from 'axios';
 import {baseUrl} from '../../assets/config';
+import LoadingSpinner from '../loadingSpinner';
 
 class Signup extends Component {
     state= {
+        isLoading:false,
         email: '',
         username: '',
         password: '',
@@ -61,16 +63,27 @@ class Signup extends Component {
             username,password,institute
         }
 
+        this.setState({
+            isLoading:true
+        })
+
         axios.post(baseUrl+'/user/signup',data)
         .then(res => {
+            this.setState({
+                isLoading:false
+            })
             console.log(res);
             alert('Plaese verifiy your account!!!\n An Email has been send to you assoicated mail-id')
             this.props.history.push('/login');
         })
         .catch(err => {
-            console.log(err.response);
-            alert(err.response.data);
-
+            this.setState({
+                isLoading:false
+            })
+            if(err.response)
+                alert(err.response.data);
+            else
+                alert(err.message);
         });
     }
 
@@ -89,64 +102,73 @@ class Signup extends Component {
                                             <hr></hr>
                                     </div>
                                 </div>
+
+                                {
+                                    this.state.isLoading
+                                    ?
+                                    <LoadingSpinner />
+                                    :
                                 
-                                <div className="row mb-3 px-3">
-                                    <label htmlFor="username" className="form-label label col-12 col-md-6">Username</label>
-                                    <Input type="text" id="username" className="col-11 col-md-7" 
-                                        placeholder="Your choice..."
-                                        valid={errs.user===''}
-                                        invalid={errs.user!==''}
-                                        value={this.state.username}
-                                        onBlur={this.handleTouch('user')}
-                                        onChange={this.handleChange}>
-                                    </Input>                                    
-                                    <FormFeedback>{errs.user}</FormFeedback>
-                                </div>
+                                    <>
+                                    <div className="row mb-3 px-3">
+                                        <label htmlFor="username" className="form-label label col-12 col-md-6">Username</label>
+                                        <Input type="text" id="username" className="col-11 col-md-7" 
+                                            placeholder="Your choice..."
+                                            valid={errs.user===''}
+                                            invalid={errs.user!==''}
+                                            value={this.state.username}
+                                            onBlur={this.handleTouch('user')}
+                                            onChange={this.handleChange}>
+                                        </Input>                                    
+                                        <FormFeedback>{errs.user}</FormFeedback>
+                                    </div>
 
-                                <div className="row mb-3  px-3">
-                                    <label htmlFor="email" className="form-label label col-12 col-md-6">Email Id</label>
-                                    <Input type="email" id="email" className="col-12 col-md-9" 
-                                        placeholder="User Email Id..."
-                                        valid={errs.email===''}
-                                        invalid={errs.email!==''}
-                                        value={this.state.email}
-                                        onBlur={this.handleTouch('email')}
-                                        onChange={this.handleChange}>
-                                    </Input>
-                                    <FormFeedback>{errs.email}</FormFeedback>
-                                </div>
+                                    <div className="row mb-3  px-3">
+                                        <label htmlFor="email" className="form-label label col-12 col-md-6">Email Id</label>
+                                        <Input type="email" id="email" className="col-12 col-md-9" 
+                                            placeholder="User Email Id..."
+                                            valid={errs.email===''}
+                                            invalid={errs.email!==''}
+                                            value={this.state.email}
+                                            onBlur={this.handleTouch('email')}
+                                            onChange={this.handleChange}>
+                                        </Input>
+                                        <FormFeedback>{errs.email}</FormFeedback>
+                                    </div>
 
-                                <div className="row mb-3  px-3">
-                                    <label htmlFor="password" className="form-label label col-12 col-md-6">Password</label>
-                                    <Input type="password" id="password"  className="col-12 col-md-9" 
-                                        placeholder="Your Password..."
-                                        valid={errs.pass===''}
-                                        invalid={errs.pass!==''}
-                                        value={this.state.pass}
-                                        onBlur={this.handleTouch('pass')}
-                                        onChange={this.handleChange}>
-                                    </Input>
-                                    <FormFeedback>{errs.pass}</FormFeedback>
-                                </div>
+                                    <div className="row mb-3  px-3">
+                                        <label htmlFor="password" className="form-label label col-12 col-md-6">Password</label>
+                                        <Input type="password" id="password"  className="col-12 col-md-9" 
+                                            placeholder="Your Password..."
+                                            valid={errs.pass===''}
+                                            invalid={errs.pass!==''}
+                                            value={this.state.pass}
+                                            onBlur={this.handleTouch('pass')}
+                                            onChange={this.handleChange}>
+                                        </Input>
+                                        <FormFeedback>{errs.pass}</FormFeedback>
+                                    </div>
 
-                                <div className="row mb-3  px-3">
-                                    <label htmlFor="institute" className="form-label label col-12 col-md-6">Institute</label>
-                                    <Input type="text" id="institute" className="col-12 col-md-9" 
-                                        placeholder="Your choice..."
-                                        valid={true}
-                                        value={this.state.institute}
-                                        onBlur={this.handleTouch('institute')}
-                                        onChange={this.handleChange}>
-                                    </Input>                                   
-                                </div>
+                                    <div className="row mb-3  px-3">
+                                        <label htmlFor="institute" className="form-label label col-12 col-md-6">Institute</label>
+                                        <Input type="text" id="institute" className="col-12 col-md-9" 
+                                            placeholder="Your choice..."
+                                            valid={true}
+                                            value={this.state.institute}
+                                            onBlur={this.handleTouch('institute')}
+                                            onChange={this.handleChange}>
+                                        </Input>                                   
+                                    </div>
 
-                                <div className="row my-3 mx-3 ">
-                                        <button type="submit" className="btn btn-primary btn-block sub">Get started here</button>
-                                </div>
+                                    <div className="row my-3 mx-3 ">
+                                            <button type="submit" className="btn btn-primary btn-block sub">Get started here</button>
+                                    </div>
 
-                                <div class="row mt-3">
-                                    <a className="text-center link-info fs-5" id="link" href="/login">Alreday have an Account?</a>
-                                </div>
+                                    <div class="row mt-3">
+                                        <a className="text-center link-info fs-5" id="link" href="/login">Alreday have an Account?</a>
+                                    </div>
+                                    </>
+                                }
                             </form>
                         </div>
                     </div>

@@ -1,11 +1,11 @@
 const config = require('./config');
 const nodemailer = require("nodemailer");
 
-exports.setup=async () => {
+const setup=async () => {
     let testAccount = await nodemailer.createTestAccount();
 
   // create reusable transporter object using the default SMTP transport
-  config.transporter= nodemailer.createTransport({
+   let transporter= nodemailer.createTransport({
     host: testAccount.smtp.host,
     port: testAccount.smtp.port,
     secure: testAccount.smtp.secure,
