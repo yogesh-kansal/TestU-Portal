@@ -17,6 +17,7 @@
     color: white;
 }
 
+
 .dropdown-menu {
     background: gray !important;
     border: none !important;
@@ -26,11 +27,11 @@
 }
 
 .dropdown-item {
+    text-decoration: none !important;
     color: rgb(255,255,255,.55) !important;
-}
-
-.dropdown-item:hover {
     background: gray !important;
+}
+.dropdown-item:hover {
     color: #fff !important;
 
 }

@@ -63,7 +63,7 @@ class Header extends Component {
 
                                             <ul class="dropdown-menu mx-3" aria-labelledby="navbarDropdownMenuLink">
                                                 <NavLink class="dropdown-item nav-link" to="/user"><span className="fa mx-1 fa-id-badge fa-lg"></span> Profile</NavLink>
-                                                <NavLink class="dropdown-item nav-link" onClick={this.context.logOut()}><span className="fa mx-1 fa-sign-out fa-lg"></span> Sign out</NavLink>
+                                                <NavLink class="dropdown-item nav-link" to="/" onClick={this.context.logOut}><span className="fa mx-1 fa-sign-out fa-lg"></span> Sign out</NavLink>
                                             </ul>
                                         </li>
                                     </>

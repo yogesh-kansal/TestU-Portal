@@ -32,7 +32,6 @@ class Login extends Component {
         .then(res=> {
             console.log(res)
             this.context.modifyAuthStatus(res.data);
-
             this.props.history.push('/home');
         })
         .catch(err=> {
