@@ -63,11 +63,11 @@ class Edit extends Component {
         });
     }
 
-    updateUserInfo=(e) => {
+    updateUserInfo=() => {
         this.setState({
             isLoading_info:true
         })
-        e.preventDefault();
+
         let {user}= this.context;
 
         let data={};
@@ -98,8 +98,7 @@ class Edit extends Component {
         });
     }
 
-    resetPassword=(e) => {
-        e.preventDefault();
+    resetPassword=() => {
         this.setState({
             isLoading_pass:true
         })
@@ -138,115 +137,131 @@ class Edit extends Component {
 
         return (
             <div className="container mt-5 pt-1 user">
-                <div className="row justify-content-center">
-                    <div className="col-10 col-md-9">
-                        <div className="card">
-                            <div className="card-header border-0 bg-info text-white">
-                                <div className="row align-items-center">
-                                    <h4 className="col-auto ms-2">Edit profile</h4>
+                <div className="main-body">
 
-                                    <div className="col-auto ms-auto me-3">
-                                        <Link to={`/user`}>
-                                            <button className="btn btn-outline-light">Back</button>
-                                        </Link>
+                    <div class="row gutters-sm justify-content-center">
+                        <div className="col-md-9">
+                            <div className="row">
+                                <div class="col card">
+                                    <div className="card-header border-0 my-2 mx-1">
+                                        <div className="row align-items-center">
+                                            <h5 className="col-auto ms-2 text-danger">Profile Info.</h5>
+                                            
+                                            <div className="col-auto ms-auto me-3">
+                                                <Link to={`/user`}>
+                                                    <button className="btn btn-secondary">Back </button>
+                                                </Link>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="card-body">
-                                <div className="row mt-2">
-                                    <div className="col-auto">
-                                        <strong>Edit Basic Info.</strong>
-                                        <hr></hr>
-                                    </div> 
-                                </div>
-
-                                <div className="row p-md-2">
-                                    <div className="col-12 col-md-7">
-
-                                        {this.state.isLoading_info
-                                        ?
-                                            <LoadingSpinner/>
-                                        :
-                                            <form onSubmit={this.updateUserInfo}>
-                                                <div className="row mb-3 px-3">
-                                                    <label htmlFor="new_email" className="form-label col-12 col-sm-6">Email</label>
-                                                    <Input type="email" className="col-12 col-md-7" readOnly value={this.state.emailId} valid={true}/>
+                                    {
+                                    this.state.isLoading_info
+                                    ?
+                                        <LoadingSpinner />
+                                    :
+                                    
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Email</h6>
                                                 </div>
-                                                
-                                                <div className="row mb-3 px-3">
-                                                    <label htmlFor="new_username" className="form-label col-12 col-sm-6">Username</label>
-                                                    <Input type="text" id="new_name" className="col-12 col-md-7"
+                                                <div class="col-sm-9 text-secondary">
+                                                    <input type="text" class="form-control" value={this.state.emailId} readOnly/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">User Name</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <Input type="text" id="new_name"
                                                         valid={errs.user===''}
                                                         invalid={errs.user!==''}
                                                         value={this.state.new_name}
                                                         onBlur={this.handleTouch('user')}
                                                         onChange={this.handleChange}/>
                                                 </div>
-
-                                                <div className="row mb-3 px-3">
-                                                    <label htmlFor="cnew_add" className="form-label col-12 col-sm-6">Institute</label>
-                                                    <Input type="text" id="new_institute" className="col-12 col-md-7"
+                                            </div>
+                                    
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Institute</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <Input type="text" id="new_institute"
                                                         valid={errs.ins===''}
                                                         invalid={errs.ins!==''}
                                                         value={this.state.new_institute}
                                                         onBlur={this.handleTouch('ins')}
                                                         onChange={this.handleChange}/>
                                                 </div>
-
-                                                <div className="row mb-5 px-3 justify-content-center">
-                                                    <div className="col-12 col-md-6">
-                                                        <button className="btn btn-outline-primary" type="submit">Edit Info.</button>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <button className="btn btn-outline-primary" type="submit"
+                                                    onClick={this.updateUserInfo}>Edit Info.</button>
                                                 </div>
-                                            </form>
-                                        }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="row mt-3">
+                                <div class="col card">
+                                    <div className="card-header border-0 my-2 mx-1">
+                                        <div className="row align-items-center">
+                                            <h5 className="col-auto ms-2 text-danger">Password Reset</h5>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col-auto">
-                                        <strong>Reset Password</strong>
-                                        <hr></hr>
-                                    </div> 
-                                </div>
-
-                                <div className="row p-md-2">
-                                    <div className="col-12 col-md-7">
-                                        {this.state.isLoading_pass
-                                        ?
-                                            <LoadingSpinner/>
-                                        :
-                                            <form onSubmit={this.resetPassword}>
-                                                <div className="row mb-3 px-3">
-                                                    <label htmlFor="old_pass" className="form-label col-12 col-sm-8">Old Password</label>
-                                                    <Input type="password" id="old_pass" className="col-12 col-md-7"
+                                    {
+                                    this.state.isLoading_pass
+                                    ?
+                                        <LoadingSpinner />
+                                    :
+                                    
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Old password</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <Input type="password" id="old_pass"
                                                         value={this.state.old_pass}
                                                         valid={true}
                                                         onChange={this.handleChange}/>
                                                 </div>
+                                            </div>
 
-                                                <div className="row mb-3 px-3">
-                                                    <label htmlFor="new_pass" className="form-label col-12 col-sm-8">New Password</label>
-                                                    <Input type="password" id="new_pass" className="col-12 col-md-6"
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">New Password</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <Input type="password" id="new_pass"
                                                         value={this.state.new_pass}
                                                         valid={errs.pass===''}
                                                         invalid={errs.pass!==''}
                                                         onChange={this.handleChange}/>
                                                 </div>
-
-                                                <div className="row mb-4 px-3 justify-content-center">
-                                                    <div className="col-12 col-sm-8">
-                                                        <button className="btn btn-outline-primary" type="submit">Reset Password</button>
-                                                    </div>
+                                            </div>
+                                    
+                                            <div class="row">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <button className="btn btn-outline-primary" type="button"
+                                                    onClick={this.resetPassword}>Reset Password</button>
                                                 </div>
-                                            </form>
-                                        }
-                                    </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                </div>    
+                    </div>
+                </div>
             </div>
         );
     }
