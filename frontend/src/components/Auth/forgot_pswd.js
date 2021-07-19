@@ -70,7 +70,7 @@ class ForgotPswd extends Component {
         const errs=this.validate(this.state.pass, this.state.c_pass);
 
         return (
-            <div className="container forgot">
+            <div className="container m-5 p-5 label">
                 <div className="row justify-content-center">
                     <div className="col-10 col-md-9">
                         {this.state.isLoading_pass

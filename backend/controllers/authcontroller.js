@@ -128,9 +128,9 @@ exports.forgotPassword=catchAsync(async (req,res,next) => {
     const token = jwt.sign(
         {emailId:emailId},
         config.genKey,
-        {expiresIn:60*60*1000}
+        {expiresIn:10*60}
     );
 
     await sendMail_to_change_pass(emailId,token);
-    res.status(200).send(`mail has been sent to ${emailId}`);
+    res.status(200).send(`mail has been sent to ${emailId}\nIt is valid fo 10 mins only!!!`);
 }); 

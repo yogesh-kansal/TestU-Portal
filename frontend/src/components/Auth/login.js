@@ -23,8 +23,7 @@ class Login extends Component {
         });
     }
 
-    handleSubmit=(e) => {
-        e.preventDefault();
+    handleSubmit=() => {
         let {email,password}=this.state;
         let data={emailId:email,password};
         
@@ -83,7 +82,7 @@ class Login extends Component {
                 <div className="container my-5">
                     <div className="row justify-content-center">
                         <div className="col-11 col-lg-4 col-md-7 col-sm-9">
-                            <form onSubmit={this.handleSubmit} className="">
+                            <form >
 
                                 <div className="row justify-content-center mt-1">
                                     <div className="col-auto heading label">
@@ -119,7 +118,7 @@ class Login extends Component {
                                     </div>
 
                                     <div className="row my-3 mx-3">
-                                        <button type="submit" className="btn btn-primary btn-block sub">Login</button>
+                                        <button type="button" className="btn btn-primary btn-block sub" onClick={this.handleSubmit}>Login</button>
                                     </div>
 
                                     <div class="row">
@@ -128,7 +127,7 @@ class Login extends Component {
                             </>
                              :
                              <div className="row my-3 mx-3">
-                                <button type="btn" className="btn btn-primary btn-block sub" onClick={this.reset}>Send Email to reset it</button>
+                                <button type="button" className="btn btn-primary btn-block sub" onClick={this.reset}>Send Email to reset password</button>
                             </div>
                             }
                                 <div class="row">

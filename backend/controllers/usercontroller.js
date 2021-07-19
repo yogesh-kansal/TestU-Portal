@@ -76,7 +76,7 @@ exports.changePassword=catchAsync(async (req,res,next) => {
         return next(new appError('Used wrong url!!!', 403));    
     }
 
-    if(Date.now() >(jwttoken.exp)) {
+    if(Date.now() >(jwttoken.exp*1000)) {
         return next(new appError('Link is expired!!!\nRetry', 401));    
     }
 
