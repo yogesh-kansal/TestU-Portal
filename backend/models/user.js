@@ -35,7 +35,6 @@ const userschema = new Schema({
     takenList: [{
         id: {
             type: Schema.Types.ObjectId,
-            ref: 'quiz'
         },
         answers: {
             type: Array,

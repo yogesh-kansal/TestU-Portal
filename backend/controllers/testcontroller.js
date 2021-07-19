@@ -3,6 +3,7 @@ const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
 const appError = require('../utils/appError');
 const {sendMail_to_users} =require('../utils/send_mail');
+const test = require('../models/test');
 
 exports.getTest=catchAsync(async (req,res,next) => {
     let test=await Test.findById(req.params.id);
@@ -27,32 +28,36 @@ exports.getTestsList=catchAsync(async (req,res,next) => {
     let list=[];
     if(type==='available')
         list=user.availableList;
-    else if(type==='taken')
-        list=user.takenList;
+    else if(type==='taken') {
+        user.takenList.forEach(lst =>list.push(lst.id))
+    }
     else if(type==='created')
         list=user.createdList;
     else
         return next(new appError('query type is wrong!!!',404));
 
-    data=[];
+    let data=await Test.find({_id: {$in: list}});
+    let ans=[];
 
-    list.forEach(catchAsync( async (id) => {
-        let test=await Test.findById(id);
-        data.push({test:test});
-    }))
-
-    if(type==='taken') {
-        list.forEach((id,pos) => {
-            data[pos].answers=user.takenList[pos].answers;
-            data[pos].marks_obt=user.takenList[pos].marks_obt;
-        })
-    }
-
-    res.status(200).json(data);
+    data.forEach((_,pos) => {
+        if(type==='taken') {
+            ans.push({ test:data[pos], 
+                    answers:user.takenList[pos].answers,
+                    marks_obt:user.takenList[pos].marks_obt});
+        }
+        else {
+            ans.push({ test:data[pos]});
+        }
+    })
+    
+    res.status(200).json({
+        data: ans
+    });
 });
 
 exports.newTest=catchAsync(async (req,res,next) => {
-    const test=new Test({...req.body,author:req.user});
+    let user=await User.findById(req.userId);
+    const test=new Test({...req.body,author:user.username});
     let total=0;
     for(let ques of test.questions) {
         total+=ques.marks;
@@ -60,14 +65,17 @@ exports.newTest=catchAsync(async (req,res,next) => {
 
     test.total=total;
     await test.save();
-  //  console.log(test,req.user);
-
-    let user=await User.findByIDAndUpdate(req.userId,{
-        $push:{createdList:test._id}
-    })
+    user.createdList.push(test._id);
+    await user.save();
+    console.log(test)
 
     test.users.forEach(catchAsync(async (email) => {
-        await sendMail_to_users(email,test);
+        let testee=await User.find({emailId:email});
+        if(testee) {
+            testee.availableList.push(test._id);
+            await testee.save();
+            await sendMail_to_users(email,test);
+        }
     }));
 
     res.status(200).json({
@@ -101,7 +109,7 @@ exports.submitTest=catchAsync(async (req,res,next) => {
 
     console.log(marks);
 
-    let user=await User.findByIDAndUpdate(req.userId, {
+    let user=await User.findByIdAndUpdate(req.userId, {
         $push: 
             {
                 takenList:{

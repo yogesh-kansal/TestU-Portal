@@ -59,7 +59,7 @@ exports.sendMail_to_users=async (email,test) => {
     let info = await props.transporter.sendMail({
         from: props.acc_user,
         to: email, 
-        subject: "Change password",
+        subject: "New Test Invitation",
         html: `<h2>Hello User</h2>
                 <p>You are invited to new test ${test.name}. created by ${test.author}</p>
                 <p>Test is of  ${test.duration} hours with deadline to ${test.deadline}</p>
