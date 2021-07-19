@@ -1,4 +1,3 @@
-import './App.css';
 import { Component } from 'react';
 import AuthContextProvider from './contexts/authContext';
 import Routes from './routes';
@@ -12,7 +11,7 @@ import 'font-awesome/css/font-awesome.min.css'
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="">
         <AuthContextProvider>
           <Routes/>
         </AuthContextProvider>

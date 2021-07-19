@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { authContext } from '../../../contexts/authContext';
+import { testContext } from '../../../contexts/testContext';
 import Timer from './stopWatch';
 import './test_style.css';
 import axios from 'axios';
 import {baseUrl} from '../../../assets/config';
 
 class TakeTest extends Component {
-    static contextType=authContext;
+    static contextType=testContext;
     constructor(props) {
         super(props);
 
@@ -21,15 +21,18 @@ class TakeTest extends Component {
     }
 
     componentDidMount() {
-         let answers=[];
-        for(let ques of this.context.data.questions)
-        {
+        let answers=[];
+        let id=this.props.match.params.id;
+        let data=this.context.availData[id].test;
+
+        for(let ques of data.questions) {
             console.log(ques)
             answers.push([]);
         }
+
         
         this.setState({
-            test:{...this.context.data,answers}
+            test:{...data,answers}
         })
     }
 
@@ -63,7 +66,8 @@ class TakeTest extends Component {
         })
         .then(res => {
            alert(res.data.status);
-           this.context.modifyInfo(res.data.user);
+           console.log(res);
+           this.context.refreshTakenList();
            this.props.history.push('/home');
         })
         .catch(err => {
@@ -81,13 +85,15 @@ class TakeTest extends Component {
     
     render() {
         let {isStarted,test,index} =this.state;
+        let {hours,minutes,seconds}=test.duration || {hours:0,minutes:0,seconds:0};
+        console.log(test)
         if(!isStarted)
             return(
                 <div className="container before">
                     <div className="row text-center justify-content-center">
                         <div className="col-10 col-md-6">
                             <p>You are going to attempt the test!!!</p>
-                            <span className="d-block">Duration: {test.duration} hour</span>
+                            <span className="d-block">Duration: {hours}hr {minutes}min {seconds}secs.</span>
                             <span className="d-block">No. of ques.: {test.questions?test.questions.length:0}</span>
                             <span className="d-block">Marks: {test.total}</span>
                             <span className="d-block">Author Email: {test.author}</span>
@@ -117,55 +123,57 @@ class TakeTest extends Component {
                                         </div>                            
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-4 left-panel px-2">
-                                        <div className="row ms-1">
-                                            <div className="col-auto">
-                                                Question {index+1}.<hr></hr>
+                                <div className="panel">
+                                    <div className="row flex-item">
+                                        <div className="col-4 left-panel px-2">
+                                            <div className="row ms-1">
+                                                <div className="col-auto">
+                                                    Question {index+1}.<hr></hr>
+                                                </div>
+                                                <div className="col-auto ms-auto me-2">
+                                                    marks: {test.questions[index].marks}
+                                                </div>
                                             </div>
-                                            <div className="col-auto ms-auto me-2">
-                                                marks: {test.questions[index].marks}
+                                            <div className="row mx-1">
+                                                <div className="col-auto question">
+                                                    {test.questions[index].statement} 
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="row mx-1">
-                                            <div className="col-auto question">
-                                                {test.questions[index].statement} 
+                                        <div className="col-8 right-panel px-4">
+                                            <div className="row options">
+                                                <div className="col-auto">
+                                                    Options<hr></hr>
+                                                </div>
+                                            </div>
+
+                                            <div className="row mb-5 pt-2 px-5 options flow py-3">                                                
+                                                {test.questions[index].options.map((option,id) => {
+                                                    return(
+                                                        <div key={id} className="col-12 mb-2 form-check">
+                                                            <input className="form-check-input" type="radio" 
+                                                                checked={test.answers[index].indexOf(id+1)>-1}
+                                                                onChange={(e) =>this.changeAns(index,id)}>
+                                                            </input>
+                                                            <label className="form-check-label" for="">
+                                                                {option}
+                                                            </label>
+                                                        </div>
+                                                    )})} 
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-8 right-panel px-4">
-                                        <div className="row options">
-                                            <div className="col-auto">
-                                                Options<hr></hr>
-                                            </div>
-                                        </div>
 
-                                        <div className="row mb-5 pt-2 px-5 options flow py-3">                                                
-                                            {test.questions[index].options.map((option,id) => {
-                                                return(
-                                                    <div key={id} className="col-12 mb-2 form-check">
-                                                        <input className="form-check-input" type="radio" 
-                                                            checked={test.answers[index].indexOf(id+1)>-1}
-                                                            onChange={(e) =>this.changeAns(index,id)}>
-                                                        </input>
-                                                        <label className="form-check-label" for="">
-                                                            {option}
-                                                        </label>
-                                                    </div>
-                                                )})} 
-                                        </div>
+                                    <div className="row justify-content-center test-bottom">
+                                            <div className="me-1 col-auto">
+                                                <button type="button" className="btn text-white prev" disabled={index===0} onClick={() =>this.changeIndex(-1)}>
+                                                    <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000690.png'} alt={'left'}></img>Previous</button>
+                                            </div> 
+                                            <div className="ms-1 col-auto">
+                                                <button type="button" className="btn text-white next" disabled={test.questions.length===index+1} onClick={() =>this.changeIndex(1)}>
+                                                    <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000689.png'} alt={'right'}></img>Next</button>
+                                            </div>                            
                                     </div>
-                                </div>
-
-                                <div className="row justify-content-center test-bottom">
-                                        <div className="me-1 col-auto">
-                                            <button type="button" className="btn text-white prev" disabled={index===0} onClick={() =>this.changeIndex(-1)}>
-                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000690.png'} alt={'left'}></img>Previous</button>
-                                        </div> 
-                                        <div className="ms-1 col-auto">
-                                            <button type="button" className="btn text-white next" disabled={test.questions.length===index+1} onClick={() =>this.changeIndex(1)}>
-                                                <img className="me-1 mb-1" src={'https://files.codingninjas.in/0000000000000689.png'} alt={'right'}></img>Next</button>
-                                        </div>                            
                                 </div>
                             </form>
                         </div>

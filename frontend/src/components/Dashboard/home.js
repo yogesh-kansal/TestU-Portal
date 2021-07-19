@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {authContext} from '../../contexts/authContext';
-import { baseUrl } from '../../assets/config';
-import axios from 'axios';
+import {testContext} from '../../contexts/testContext';
 import LoadingSpinner from '../loadingSpinner';
 import './dash_style.css';
 import img from '../../assets/not-found.png';
@@ -10,6 +8,7 @@ import img from '../../assets/not-found.png';
 const Render =(props) => {
     return (
         props.data.map((item,id) => {
+            let {hours,minutes,seconds}=item.test.duration;
             return(
                 <div key={id} className="col-12 col-md-9 col-sm-10 mb-5 mx-5">
                     <div className="card">
@@ -18,13 +17,12 @@ const Render =(props) => {
                                     <h4 className="col-auto">{item.test.name}</h4>
                                     <div className="col-auto ms-auto">
                                         <button type="button" className="btn btn-secondary" onClick={() => {
-                                        props.modifyData(item.test)
-                                        props.history.push(`/test/take/${item.test._id}`)
+                                        props.history.push(`/test/take/${id}`)
                                     }}>Attempt</button>
                                     </div>
                                 </div>
                                 <div className="row mt-1">
-                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{item.test.duration} hr</span>
+                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{hours}h {minutes}m {seconds}s</span>
                                     <span className="col-auto ms-1 badge rounded-pill bg-danger">dl.:{item.test.deadline}</span>       
                                 </div>
                             </div>
@@ -41,38 +39,15 @@ const Render =(props) => {
 }
 
 class Home extends Component {
-    static contextType=authContext;
-    state = {
-        isLoading:true,
-        data:[]
-    }
+    static contextType=testContext;
 
     componentDidMount() {
-        axios.get(baseUrl+'/test?type=available',{
-            headers: {
-                'Authorization': 'Bearer '+this.context.accesstoken
-            }
-        })
-        .then(res => {
-            this.setState({
-                data:res.data,
-                isLoading:false
-            })
-        })
-        .catch(err => {
-            this.setState({
-                isLoading:false
-            })
-
-            if(err.response)
-                alert(err.response.data)
-            else
-                alert(err.message)
-        });
+        this.context.refreshAvailList();
     }
 
     render() {
-        //const list=[{id:1,name:"yogesh"},{id:2,name:"yogesh"},{id:3,name:"yogesh"}];
+        const data=this.context.availData, isLoading=this.context.avail_loading;
+
         return (
             <div className="container-fluid style">
                 <div className="row justify-content-center mb-4">
@@ -92,19 +67,22 @@ class Home extends Component {
 
                         <div className="row justify-content-center">
                         {
-                            this.state.isLoading
+                            isLoading
                             ?
                                 <LoadingSpinner/>
                             :
-                                this.state.data.length
+                                data && data.length
                                 ?
-                                    <Render data={this.state.data} history={this.props.history} modifyData={this.context.modifyData}/>
+                                    <Render data={data} history={this.props.history}/>
                                 :
                                 <div className="row justify-content-center">
-                                    <div className="col-6">
-                                        <img  className="col-auto img-fluid" src={img} alt="notfound" /> 
-                                    </div>
-                                </div>
+                                    {
+                                    this.context.avail_err ||
+                                    <div className="col-auto mx-auto">
+                                        <img  className="img-fluid" src={img} alt="notfound" width="400"/> 
+                                        </div>
+                                    }
+                                </div>            
                         }
                         </div>
                     </div>

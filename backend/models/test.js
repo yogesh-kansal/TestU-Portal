@@ -43,7 +43,11 @@ const testschema=new Schema({
 
     questions: [questionschema],
     total: {type:Number,default:0},    
-    duration: {type:String},
+    duration: {
+        hours:{type:Number},
+        minutes:{type:Number},
+        seconds:{type:Number}
+    },
     deadline: {type:String}
 },
 {

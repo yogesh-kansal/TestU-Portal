@@ -8,6 +8,7 @@ import img from '../../assets/not-found.png';
 const Render =(props) => {
     return (
         props.data.map((item,id) => {
+            let {hours,minutes,seconds}=item.test.duration;
             return(
                 <div key={id} className="col-12 col-md-9 col-sm-10 mb-5">
                     <div className="card">
@@ -22,7 +23,7 @@ const Render =(props) => {
                                 </div>
                                 <div className="row mt-1">
                                     <span className="col-auto ms-1 badge rounded-pill bg-warning">marks:{item.test.total}</span>
-                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{item.test.duration} hr</span>
+                                    <span className="col-auto ms-1 badge rounded-pill bg-info">time:{hours}h {minutes}m {seconds}s</span>
                                     <span className="col-auto ms-1 badge rounded-pill bg-danger">dl.:{item.test.deadline}</span>       
                                 </div>
                             </div>

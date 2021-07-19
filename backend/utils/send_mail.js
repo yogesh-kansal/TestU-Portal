@@ -54,15 +54,16 @@ exports.sendMail_to_change_pass=async (email, token) => {
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
-exports.sendMail_to_users=async (email,test) => {
+exports.sendMail_to_users=async (emailList,test) => {
     let props=await setup();
+    let {hours,minutes,seconds}=test.duration;
     let info = await props.transporter.sendMail({
         from: props.acc_user,
-        to: email, 
+        to: emailList, 
         subject: "New Test Invitation",
         html: `<h2>Hello User</h2>
                 <p>You are invited to new test ${test.name}. created by ${test.author}</p>
-                <p>Test is of  ${test.duration} hours with deadline to ${test.deadline}</p>
+                <p>Test is of  ${hours}hrs, ${minutes}mins, ${seconds}secs with deadline to ${test.deadline}</p>
                 <P>You can attempt the test by visiting your profile in website</p>
                 <br/>
                 <p>With regards</p>

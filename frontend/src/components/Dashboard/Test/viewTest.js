@@ -60,8 +60,7 @@ class ViewTest extends Component {
                                     </div>                          
                             </div>
 
-                            <div className="show">
-
+                            <div className="panel">
                                 <div className="row flex-item">
                                     <div className="col-4 left-panel px-2">
                                         <div className="row ms-1">

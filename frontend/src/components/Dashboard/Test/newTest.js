@@ -5,6 +5,7 @@ import {testContext} from '../../../contexts/testContext';
 import { baseUrl } from '../../../assets/config';
 import axios from 'axios';
 import LoadingSpinner from '../../loadingSpinner';
+import DurationPicker from 'react-duration-picker'
 
 class NewTest extends Component {
     static contextType=testContext;
@@ -20,9 +21,15 @@ class NewTest extends Component {
             correctOptions:'',
             marks:'marks'
         }],
-        duration:'',
+        duration:{hous:0,minutes:0,seconds:0},
         deadline:''
     }
+
+    Changedur = duration => {
+        this.setState({
+            duration:duration
+        })
+      };
 
     addUser=() => {
         this.setState({
@@ -214,10 +221,13 @@ class NewTest extends Component {
 
                                     <div className="col-10 col-md-5 mt-2">
                                         <div className="row">
-                                            <label htmlFor="duration" className="form-label col-2">Duration</label>
-                                            <input type="time" id="duration" className="form-control col-6" 
-                                                value={this.state.duration}
-                                                onChange={this.handleChange}/>
+                                            <label htmlFor="duration" className="form-label col-3">Duration</label>
+                                            <DurationPicker
+                                                onChange={this.Changedur}
+                                                className="col-6" 
+                                                initialDuration={{ hours: 0, minutes: 0, seconds: 0 }}
+                                                maxHours={3}
+                                                />
                                         </div>
                                     </div>
                                     <div className="col-10 col-md-5 ms-md-auto mt-2">
