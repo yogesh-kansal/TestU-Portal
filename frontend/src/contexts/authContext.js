@@ -20,6 +20,7 @@ class AuthContextProvider extends Component {
             accesstoken:data.accesstoken,
             user:data.user
         })
+        console.log("done")
     }
 
     isLoggedin =()=> {

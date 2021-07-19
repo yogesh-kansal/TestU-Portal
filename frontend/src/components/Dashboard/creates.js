@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {authContext} from '../../contexts/authContext';
-import { baseUrl } from '../../assets/config';
-import axios from 'axios';
+import {testContext} from '../../contexts/testContext';
 import LoadingSpinner from '../loadingSpinner';
 import './dash_style.css';
 import img from '../../assets/not-found.png';
@@ -18,8 +16,7 @@ const Render =(props) => {
                                     <h4 className="col-auto">{item.test.name}</h4>
                                     <div className="d-none d-sm-block col-auto ms-auto">
                                         <button type="button" className="btn btn-secondary" onClick={() => {
-                                        props.modifyData(item)
-                                        props.history.push(`/test/view/${item.test._id}`)
+                                        props.history.push(`/test/c/view/${id}`)
                                     }}>view</button>
                                     </div>
                                 </div>
@@ -34,8 +31,7 @@ const Render =(props) => {
                                     <div className="row">{item.test.description}</div>
                                     <div className="row d-block d-sm-none mx-5 mt-2">
                                             <button type="button" className="btn btn-block btn-secondary" onClick={() => {
-                                            props.modifyData(item)
-                                            props.history.push(`/test/view/${item.test._id}`)
+                                            props.history.push(`/test/c/view/${id}`)
                                         }}>view</button>
                                     </div>
                                 </div>
@@ -48,38 +44,16 @@ const Render =(props) => {
 }
 
 class Creates extends Component {
-    static contextType=authContext;
-    state = {
-        isLoading:true,
-        data:[]
-    }
+    static contextType=testContext;
 
     componentDidMount() {
-        axios.get(baseUrl+'/test?type=created',{
-            headers: {
-                'Authorization': 'Bearer '+this.context.accesstoken
-            }
-        })
-        .then(res => {
-            this.setState({
-                data:res.data,
-                isLoading:false
-            })
-        })
-        .catch(err => {
-            this.setState({
-                isLoading:false
-            })
-
-            if(err.response)
-                alert(err.response.data)
-            else
-                alert(err.message)
-        });
+        let {createdData}=this.context;
+        if(!createdData)
+            this.context.refreshCreatedList()
     }
-
+    
     render() {
-        //console.log(this.props);
+        const data=this.context.createdData, isLoading=this.context.create_loading;
         return (
             <div className="container style">
                 <div className="row align-itmes-center">
@@ -89,25 +63,28 @@ class Creates extends Component {
                     </div>
                     <div className="col-auto ms-auto me-5">
                         <Link to="/test/new">
-                            <button className="btn btn-primary">Create New Quiz</button>
+                            <button className="btn btn-primary">Create New</button>
                         </Link>
                     </div>
                 </div>
 
-                <div className="row justify-content-center">
+                <div className="row justify-content-center mt-3">
                     {
-                        this.state.isLoading
+                        isLoading
                         ?
                             <LoadingSpinner/>
                         :
-                            this.state.data.length
+                            data && data.length
                             ?
-                                <Render data={this.state.data} history={this.props.history} modifyData={this.context.modifyData}/>
+                                <Render data={data} history={this.props.history}/>
                             :
                             <div className="row justify-content-center">
-                                <div className="col-6">
-                                    <img  className="col-auto img-fluid" src={img} alt="notfound" /> 
-                                </div>
+                                {
+                                this.context.create_err ||
+                                <div className="col-auto mx-auto">
+                                    <img  className="img-fluid" src={img} alt="notfound" width="400"/> 
+                                    </div>
+                                }
                             </div>
                                    
                     }

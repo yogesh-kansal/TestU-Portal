@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {authContext} from '../../contexts/authContext';
-import { baseUrl } from '../../assets/config';
-import axios from 'axios';
+import {testContext} from '../../contexts/testContext';
 import LoadingSpinner from '../loadingSpinner';
 import './dash_style.css';
 import img from '../../assets/not-found.png';
@@ -18,8 +16,7 @@ const Render =(props) => {
                                     <h4 className="col-auto">{item.test.name}</h4>
                                     <div className="d-none d-sm-block col-auto ms-auto">
                                         <button type="button" className="btn btn-secondary" onClick={() => {
-                                        props.modifyData(item)
-                                        props.history.push(`/test/view/${item.test._id}`)
+                                        props.history.push(`/test/t/view/${id}`)
                                     }}>view</button>
                                     </div>
                                 </div>
@@ -34,8 +31,7 @@ const Render =(props) => {
                                     <div className="row">{item.test.description}</div>
                                     <div className="row d-block d-sm-none mx-5 mt-2">
                                             <button type="button" className="btn btn-block btn-secondary" onClick={() => {
-                                            props.modifyData(item)
-                                            props.history.push(`/test/view/${item.test._id}`)
+                                            props.history.push(`/test/t/view/${id}`)
                                         }}>view</button>
                                     </div>
                                 </div>
@@ -49,36 +45,18 @@ const Render =(props) => {
 
 
 class Attempts extends Component {
-    static contextType=authContext;
-    state = {
-        isLoading:true,
-        data:[]
-    }
+    static contextType=testContext;
 
     componentDidMount() {
-        axios.get(baseUrl+'/test?type=taken',{
-            headers: {
-                'Authorization': 'Bearer '+this.context.accesstoken
-            }
-        })
-        .then(res => {
-            this.setState({
-                data:res.data,
-                isLoading:false
-            })
-        })
-        .catch(err => {
-            this.setState({
-                isLoading:false
-            })
-
-            if(err.response)
-                alert(err.response.data)
-            else
-                alert(err.message)
-        });
+        let {takenData}=this.context;
+        if(!takenData)
+            this.context.refreshTakenList()
     }
+   
     render() {
+        
+        const data=this.context.takenData, isLoading=this.context.taken_loading;
+
         return (
             <div className="container style">
                 <div className="row">
@@ -88,20 +66,23 @@ class Attempts extends Component {
                     </div>
                 </div>
 
-                <div className="row  justify-content-center">
+                <div className="row  justify-content-center mt-3">
                     {
-                        this.state.isLoading
+                        isLoading
                         ?
                             <LoadingSpinner/>
                         :
-                            this.state.data.length
+                            data && data.length
                             ?
-                                <Render data={this.state.data} history={this.props.history} modifyData={this.context.modifyData}/>
+                                <Render data={data} history={this.props.history} /* modifyData={this.context.modifyData} *//>
                             :
                             <div className="row justify-content-center">
-                                <div className="col-6">
-                                    <img  className="col-auto img-fluid" src={img} alt="notfound" /> 
-                                </div>
+                                {
+                                this.context.taken_err ||
+                                <div className="col-auto mx-auto">
+                                    <img  className="img-fluid" src={img} alt="notfound" width="400"/> 
+                                    </div>
+                                }
                             </div>
                     }
                 </div>
@@ -111,32 +92,3 @@ class Attempts extends Component {
 }
 
 export default Attempts;
-
-
-/**
- * /*{
-            test:{
-                    author:"60a80c6bc928253054a54515",
-                    name:"Sorting quiz",
-                    description:"This is a quiz cosisting of data-structurs and algorithms.",
-                    questions:[
-                    {
-                        statement:"What is time complexity of quicksort?",
-                        options:["O(N)","O(N^2)","O(Nlog(N))","O(1)"],
-                        correctOptions:["O(Nlog(N))"],
-                        maxMarks:20
-                    },
-                    {
-                        statement:"What is time complexity of mergesort?",
-                        options:["O(N)","O(N^2)","O(Nlog(N))","O(1)"],
-                        correctOptions:["O(Nlog(N))"],
-                        maxMarks:20
-                    },
-                    {
-                        statement:"What is time complexity of bucketsort?",
-                        options:["O(N)","O(N^2)","O(Nlog(N))","O(1)"],
-                        correctOptions:["O(Nlog(N))"],
-                        maxMarks:20
-                    }]
-                }
-            }*/

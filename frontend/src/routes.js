@@ -1,6 +1,7 @@
 import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom';
 import { Component } from 'react';
 import {authContext} from './contexts/authContext';
+import TestContextProvider from './contexts/testContext';
 import './App.css';
 
 import Home from './components/Dashboard/home';
@@ -45,24 +46,26 @@ class Routers extends Component {
                 {!loginStatus
                 ?
                   <Switch>
-                    <Route path="/login" component={Login}/>
+                    <Route path="/login" component={(props) => <Login {...props}/>}/>
                     <Route path="/signup" component={Signup}/>
                     <Route path='/forgotPswd' component={ForgotPswd}/>
                     <Redirect to={"/signup"}/>
                   </Switch>
                 :
                   <Switch>
-                    <Route path="/home" component={Home}/>
-                    <Route path="/creates" component={Creates}/>
-                    <Route path="/taken" component={Attempts}/>
-    
-                    <Route exact path="/test/new" component={NewTest}/>
-                    <Route path="/test/take/:id" component={TakeTest}/>
-                    <Route path="/test/view/:id" component={ViewTest}/>
-          
-                    <Route exact path="/user" component={Profile}/>
-                    <Route path="/user/edit" component={Edit}/>
-                    <Redirect to={"/home"}/>
+                    <TestContextProvider>
+                      <Route path="/home" component={Home}/>
+                      <Route path="/creates" component={Creates}/>
+                      <Route path="/taken" component={Attempts}/>
+      
+                      <Route exact path="/test/new" component={NewTest}/>
+                      <Route path="/test/take/:id" component={TakeTest}/>
+                      <Route path="/test/:type/view/:id" component={ViewTest}/>
+            
+                      <Route exact path="/user" component={Profile}/>
+                      <Route path="/user/edit" component={Edit}/>
+                      <Redirect to={"/home"}/>
+                    </TestContextProvider>
                   </Switch>
                 }      
             </BrowserRouter>

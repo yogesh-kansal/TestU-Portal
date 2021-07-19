@@ -1,8 +1,9 @@
 .ques {
-    border: 2px solid gray;
-    border-radius: 15px;
-    box-shadow: 3px 3px 0px 0px #888888;
-    background: white;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 2px solid rgba(0,0,0,.125);
+    border-radius: 1.00rem;
 }
 
 img {

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../dash_style.css';
-
-import {authContext} from '../../../contexts/authContext';
+import {testContext} from '../../../contexts/testContext';
 import { baseUrl } from '../../../assets/config';
 import axios from 'axios';
 import LoadingSpinner from '../../loadingSpinner';
 
 class NewTest extends Component {
-    static contextType=authContext;
+    static contextType=testContext;
     
     state = {
         isLoading:false,
@@ -16,7 +15,7 @@ class NewTest extends Component {
         description:'',
         users: [''],
         questions:[{
-            statement:'Qeustion...',
+            statement:'',
             options:[''],
             correctOptions:'',
             marks:'marks'
@@ -44,7 +43,7 @@ class NewTest extends Component {
             statement:'',
             options:[''],
             correctOptions:'',
-            marks:0
+            marks:'marks'
         }
         this.setState({
             questions: [...this.state.questions,ques]
@@ -93,6 +92,7 @@ class NewTest extends Component {
     }
 
     handleChange =(e) => {
+        console.log(e.target)
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -121,16 +121,38 @@ class NewTest extends Component {
         })
         .then(res => {
             this.setState({
-                isLoading:false
+                isLoading:false,
+                name:'',
+                description:'',
+                users: [''],
+                questions:[{
+                    statement:'',
+                    options:[''],
+                    correctOptions:'',
+                    marks:'marks'
+                }],
+                duration:'',
+                deadline:''
             })
            // console.log(res.data);
             alert(res.data.status);
-            this.context.modifyInfo(res.data.user);
+            this.context.refreshCreatedList();
             this.props.history.push('/creates')
         })
         .catch(err => {
             this.setState({
-                isLoading:false
+                isLoading:false,
+                name:'',
+                description:'',
+                users: [''],
+                questions:[{
+                    statement:'',
+                    options:[''],
+                    correctOptions:'',
+                    marks:'marks'
+                }],
+                duration:'',
+                deadline:''
             })
             console.log(err.response);
             if(err.response)
@@ -143,7 +165,7 @@ class NewTest extends Component {
     render() {
         return (
 
-            <div className="container style mt-4">                
+            <div className="container style mt-5">                
                 <div className="row align-items-center">
                     <div className="col-auto">
                         <p className="fs-3">Create New</p>
@@ -193,7 +215,7 @@ class NewTest extends Component {
                                     <div className="col-10 col-md-5 mt-2">
                                         <div className="row">
                                             <label htmlFor="duration" className="form-label col-2">Duration</label>
-                                            <input type="Time" id="duration" className="form-control col-6" 
+                                            <input type="time" id="duration" className="form-control col-6" 
                                                 value={this.state.duration}
                                                 onChange={this.handleChange}/>
                                         </div>
@@ -252,27 +274,28 @@ class NewTest extends Component {
                                     </div>
                                 </div>
 
-                                <div className="row mt-4">
+                                <div className="row mt-4 justify-content-center">
                                     {this.state.questions.map((ques,index) => {
                                         return (
-                                        <div key={index} className="col-11 col-md-10 col-md-8 ques my-3 ms-3 ms-md-0">
+                                        <div key={index} className="col-11 col-md-9 mx-1 ques my-3 px-5 pt-5">
                                         
-                                            <div className="row mt-5">
+                                            <div className="row mt-4">
                                                 <div className="col-auto">Q {index+1}.<hr></hr></div>
-                                                    <div className="col-6 col-md-2 ms-auto me-3">
+                                                    <div className="col-auto ms-auto me-3">
                                                         <input type="number" id="marks" className="form-control" placeholder="marks"
                                                             value={ques.marks}
                                                             onChange={e =>this.changeBasic(e,index,1)}/></div>
                                             </div>
             
-                                            <div className="row">
+                                            <div className="row justify-content-center mt-3">
                                                 <label htmlFor="statement" className="col-12 form-label">Statement</label>
-                                                <div className="col-11">
+                                                <div className="col">
                                                     <textarea id="statement" rows="1" cols="50" className="form-control"
                                                         value={ques.statement}
                                                         onChange={e =>this.changeBasic(e,index,2)}/>
                                                     </div>
                                             </div>
+                                           
 
                                             <div className="row mt-5">
                                                 <div className="col-auto fs-5">Options<hr></hr></div>
@@ -293,22 +316,17 @@ class NewTest extends Component {
                                                         </div>
                                                     )})}
                                             </div>
+                                           
 
                                             <div className="row mt-5">
-                                                <div className="col-auto fs-5">Correct options<hr></hr></div>
-                                            </div>
-                                            <div className="row mt-1">
-                                                <div className="col-12 col-md-7">
+                                                <div className="col-4 fs-5">Correct options</div>
+                                                <div className="col-8 col-md-7">
                                                     <input type="text" className="form-control col-8 col-md-6" id="correctOptions"
                                                         value={ques.correctOptions}
                                                         onChange={e =>this.changeBasic(e,index,3)}/>
                                                     
                                                 <p className="text-center text-warning mt-2">(Enter space seperated option number which are correct)</p>
                                                 </div>
-                                            </div>
-
-                                            <div className="m-5 row justify-content-center">
-                                                <hr className="col-6"></hr>
                                             </div>
                                         </div>
                                     )})}
