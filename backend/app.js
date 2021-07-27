@@ -51,7 +51,7 @@ app.use(function(err, req, res, next) {
   res.send(err.message);
 });
 
-const port=3001;
+const port=config.PORT || 3001;
 const server = app.listen(port, () => {
   console.log(`Server is runnig on http://localhost:${port}`);
 });
