@@ -2,7 +2,7 @@
 `TestU` is a MERN stack web Portal to conduct online tests for various academic & non-academic subjects where users can set test for a group of people.
 
 ## Tech Stack
-MERN stack
+MERN stack<br/>
 Bootstrap5
 
 ## Feactures
@@ -57,7 +57,7 @@ Bootstrap5
 <p align="center">
 <img src="./demoImages/new_test.png"
   alt="test"
-  width="716" height="410" style="border-style: solid">
+  width="716" height="800" style="border-style: solid">
 </p>
 <br/>
 <br/>
