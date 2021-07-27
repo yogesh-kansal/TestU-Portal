@@ -95,8 +95,12 @@ class Home extends Component {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="notifications row p-2 align-items-center">
+                            <div className="content mb-1">
+                                Hii guys!!! 
+                                Welcome to our portal...
 
+                            </div>
                         </div>
                     </div>
                 </div>

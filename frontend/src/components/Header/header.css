@@ -31,7 +31,7 @@
     color: rgb(255,255,255,.55) !important;
     background: gray !important;
 }
-.dropdown-item:hover {
+.dropdown-item:hover, .dropdown-item:active  {
     color: #fff !important;
 
 }
