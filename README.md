@@ -64,7 +64,7 @@ Bootstrap5
 
 ### View test -
 <p align="center">
-<img src="./demoImages/aview_test.png"
+<img src="./demoImages/view_test.png"
   alt="test"
   width="716" height="410" style="border-style: solid">
 </p>
