@@ -34,21 +34,21 @@ For more info refer to `/utils/config.js` file.
 
 ## API reference
 ### User API 
-__`POST`__ `/user/signup`  --- user signup
-__`POST`__  `/user/login`  --- user login
-__`GET`__ `/user/verifyUser?token=TOKEN` --- user verification
+__`POST`__ `/user/signup`  --- user signup  <br/>
+__`POST`__  `/user/login`  --- user login <br/>
+__`GET`__ `/user/verifyUser?token=TOKEN` --- user verification<br/>
 
-(can user after loggin only)
-__`GET`__ `/user` --get user 
-__`PATCH`__ `/user/edit/:id` --- user details update
-__`PATCH`__ `/user/reset_password/:id` --- user password update
+__`GET`__ `/user/forgot_password?email=EMAILID` --- reuest for forgot password<br/>
+__`PATCH`__ `/user/change_password` --- set new password<br/>
 
-__`GET`__ `/user/forgot_password?email=EMAILID` --- reuest for forgot password
-__`PATCH`__ `/user/change_password` --- set new password
+__Only after login of user__<br/>
+__`GET`__ `/user` --get user <br/>
+__`PATCH`__ `/user/edit/:id` --- user details update<br/>
+__`PATCH`__ `/user/reset_password/:id` --- user password update<br/>
 
 ### Test API 
-__`GET`__ `/test/:id`  --- get test with id
-__`GET`__  `/test?type=TYPE`  --- get list of tests of specific type (created,attempted,available).
+__`GET`__ `/test/:id`  --- get test with id<br/>
+__`GET`__  `/test?type=TYPE`  --- get list of tests of specific type (created,attempted,available).<br/>
 
-__`POST`__ `/test/new` create a new test
-__`POST`__ `/test/submit` submut the test
+__`POST`__ `/test/new` create a new test<br/>
+__`POST`__ `/test/submit` submut the test<br/>

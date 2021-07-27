@@ -4,7 +4,7 @@
 `BACKENDURL` - server url (__Default__: 'http://localhost:3001')
 <br>
 
-For more info refer to `/utils/config.js` file.
+For more info refer to `/assets/config.js` file.
 
 # Getting Started with Create React App
 
