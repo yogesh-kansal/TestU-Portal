@@ -68,6 +68,7 @@ class TakeTest extends Component {
            alert(res.data.status);
            console.log(res);
            this.context.refreshTakenList();
+           this.context.refreshAvailList();
            this.props.history.push('/home');
         })
         .catch(err => {
@@ -86,7 +87,12 @@ class TakeTest extends Component {
     render() {
         let {isStarted,test,index} =this.state;
         let {hours,minutes,seconds}=test.duration || {hours:0,minutes:0,seconds:0};
-        console.log(test)
+        
+        window.blur(() => {
+            let x=prompt("If you will change the current tab, your test will automatically submit!!!\nDo you want that?");
+            console.log(x)
+        })
+
         if(!isStarted)
             return(
                 <div className="container before">

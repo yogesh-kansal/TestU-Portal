@@ -115,7 +115,7 @@ exports.newTest=catchAsync(async (req,res,next) => {
 exports.submitTest=catchAsync(async (req,res,next) => {
     let test=req.body;
     let marks=0;
-    console.log(req.body)
+    console.log(req.body) 
     for(let i=0;i<test.answers.length;i++)
     {
         let correct=test.questions[i].correctOptions;
