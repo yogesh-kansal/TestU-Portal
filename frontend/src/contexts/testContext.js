@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {baseUrl} from '../assets/config';
 import { authContext } from './authContext';
+import io from 'socket.io-client';
+let socket;
 
 export const testContext=React.createContext();
 
@@ -108,6 +110,30 @@ class TestContextProvider extends Component {
         });
     }
 
+    componentDidMount() {
+        socket = io(baseUrl);
+        console.log(socket)
+        socket.on('updated',(data) => {
+            console.log(data)
+            if(data.indexOf(this.context.user.emailId)>-1)
+            {
+                alert('new test has arrived!!!');
+                this.refreshAvailList();
+            }
+        })
+
+    }
+
+    Emit(list) {
+        socket.emit('emit',list);
+    }
+
+    componentWillUnmount()
+    {
+        console.log("cosing session");
+        socket.close();
+    }
+
     render() {
         return (
             <testContext.Provider value={{...this.state,
@@ -115,7 +141,7 @@ class TestContextProvider extends Component {
                         refreshAvailList:this.refreshAvailList,
                         refreshCreatedList:this.refreshCreatedList,
                         refreshTakenList:this.refreshTakenList,
-                        modifyData:this.modifyData
+                        Emit:this.Emit
                     }
             }>
                 {this.props.children}

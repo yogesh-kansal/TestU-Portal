@@ -4,6 +4,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const config=require('./utils/config');
 const AppError=require('./utils/appError');
+const Socket=require('./utils/socket');
 const cors=require('cors');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/tests');
@@ -56,6 +57,7 @@ const server = app.listen(port, () => {
   console.log(`Server is runnig on http://localhost:${port}`);
 });
 
+Socket.setUp(server);
 
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION!  Shutting down...');

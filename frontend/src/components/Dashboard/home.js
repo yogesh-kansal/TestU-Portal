@@ -42,7 +42,9 @@ class Home extends Component {
     static contextType=testContext;
 
     componentDidMount() {
-        this.context.refreshAvailList();
+        let {availData}=this.context;
+        if(!availData)
+            this.context.refreshAvailList();
     }
 
     render() {

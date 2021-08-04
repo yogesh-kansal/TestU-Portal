@@ -127,6 +127,7 @@ class NewTest extends Component {
             }
         })
         .then(res => {
+            this.context.Emit(this.state.users);
             this.setState({
                 isLoading:false,
                 name:'',
