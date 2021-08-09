@@ -87,11 +87,6 @@ class TakeTest extends Component {
     render() {
         let {isStarted,test,index} =this.state;
         let {hours,minutes,seconds}=test.duration || {hours:0,minutes:0,seconds:0};
-        
-        window.blur(() => {
-            let x=prompt("If you will change the current tab, your test will automatically submit!!!\nDo you want that?");
-            console.log(x)
-        })
 
         if(!isStarted)
             return(
@@ -105,14 +100,26 @@ class TakeTest extends Component {
                             <span className="d-block">Author Email: {test.author}</span>
                             <div className="row mt-3 mx-5">
                                 <button type="button" className="btn btn-block btn-primary"
-                                    onClick={()=>{this.setState({isStarted:true})}}>START
+                                    onClick={()=>{
+                                        let abc=() => {
+                                            document.removeEventListener('visibilitychange',abc);
+                                            this.handleSubmit();
+                                        }
+
+                                        document.addEventListener("visibilitychange",abc)
+                                            this.setState({isStarted:true});
+                                        }}>START
                                 </button>
+                            </div>
+                            <div class="alert alert-warning fs-6 mt-3" role="alert">
+                                After clicking <strong>START</strong> If you navigate to other tab or close tab your test will automatically submit!!!
                             </div>
                         </div>
                     </div>
                 </div>
             );
         else 
+        {
             return(
                 <div className="container-fluid after">
                     <div className="row mx-1">
@@ -186,6 +193,7 @@ class TakeTest extends Component {
                     </div>
                 </div>
             );   
+        }
     }
 }
 
