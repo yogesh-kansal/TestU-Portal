@@ -5,7 +5,7 @@
 MERN stack<br/>
 Bootstrap5
 
-## Feactures
+## Features
 - [x] Portal supports user realted tasks such as `user-signup`, `email-verification`,  `user-login`, `update user profile`, `reset password`, `change password` whenever user forgets it (using email id only).<br/>
 - [x] The portal allows a user to create an test of dynamic no. of questions for dynamic no. of users. with a specified deadline and time duration. Users who are associated with this exam will be notified through email and then users can attempt the test within deadline.<br/>
 - [x] Portal provides facility to attemt test, he can submit it before time as well other wise after time duration test will be submiited automatically.<br/>
