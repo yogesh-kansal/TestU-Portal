@@ -1,9 +1,5 @@
-# TestU-Portal
+# TestU-Portal [[link](https://testu-portal.netlify.app/)]
 `TestU` is a MERN stack web Portal to conduct online tests for various academic & non-academic subjects where users can set tests for a group of people.
-
-# URLs
-Client url: `https://testu-portal.netlify.app/`
-Server Url: `  https://testu-portal-server.herokuapp.com/`
 
 ## Tech Stack
 MERN stack<br/>
