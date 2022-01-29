@@ -38,7 +38,7 @@ exports.signup=catchAsync(async (req,res,next) => {
         institute: req.body.institute
     });
 
-    await sendMail_to_verify(newUser.username, newUser.emailId,token);
+    await sendMail_to_verify(newUser.username, newUser.emailId,token, next);
     await newUser.save();
 
     res.status=200;

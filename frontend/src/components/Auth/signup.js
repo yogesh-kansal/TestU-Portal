@@ -45,11 +45,11 @@ class Signup extends Component {
         if(this.state.touched.email && !mailformat.test(email))
             err.email='Mail format is not correct';
         if(this.state.touched.user && user.length<3)
-            err.user='usernmae must be atleat of lenght 3';
+            err.user='username must be atleast of length 3';
         else if(this.state.touched.pass && user.length>8)
-            err.user='username must be atmax of lenght 8';
+            err.user='username must be atmax of length 8';
         if(this.state.touched.pass && pass.length<6)
-            err.pass='Password must be atleat of lenght 6';
+            err.pass='Password must be atleast of length 6';
         return err;
     }
 
@@ -164,7 +164,7 @@ class Signup extends Component {
                                             <button type="submit" className="btn btn-primary btn-block sub">Get started here</button>
                                     </div>
 
-                                    <div class="row mt-3">
+                                    <div className="row mt-3">
                                         <a className="text-center link-info fs-5" id="link" href="/login">Alreday have an Account?</a>
                                     </div>
                                     </>

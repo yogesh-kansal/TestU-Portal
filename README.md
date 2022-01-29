@@ -1,17 +1,21 @@
 # TestU-Portal
-`TestU` is a MERN stack web Portal to conduct online tests for various academic & non-academic subjects where users can set test for a group of people.
+`TestU` is a MERN stack web Portal to conduct online tests for various academic & non-academic subjects where users can set tests for a group of people.
+
+# URLs
+Client url: `https://testu-portal.netlify.app/`
+Server Url: `  https://testu-portal-server.herokuapp.com/`
 
 ## Tech Stack
 MERN stack<br/>
 Bootstrap5
 
 ## Features
-- [x] Portal supports user realted tasks such as `user-signup`, `email-verification`,  `user-login`, `update user profile`, `reset password`, `change password` whenever user forgets it (using email id only).<br/>
-- [x] The portal allows a user to create an test of dynamic no. of questions for dynamic no. of users. with a specified deadline and time duration. Users who are associated with this exam will be notified through email and then users can attempt the test within deadline.<br/>
-- [x] Portal provides facility to attemt test, he can submit it before time as well other wise after time duration test will be submiited automatically.<br/>
-- [x] Users will have details of their created tests and he can re-examine this any time.<br/>
-- [x] Users will have thier list of attemted tests and he/she can look back them any time<br/>
-- [x] Users will have list of test which he can attempt presently.
+- [x] Portal supports user-related tasks such as `user-signup`, `email-verification`,  `user-login`, `update user profile`, `reset password`, `change password` whenever the user forgets it (using email id only).<br/>
+- [x] The Portal allows a user to create a test of dynamic no. of questions for dynamic no. of users with a specified deadline and time duration. Users associated with this exam will be notified through email, and then users can attempt the test within the deadline.<br/>
+- [x] Portal provides a facility to attempt the test. He can submit it before time as well; otherwise, after time duration test will be submitted automatically.<br/>
+- [x] Users will have details of their created tests, and he can re-examine this any time.<br/>
+- [x] Users will have their list of attempted tests, and they can look back at them any time<br/>
+- [x] Users will have a list of tests they can attempt presently.
 - [x] User authorization is done using JWT tokens.
 
 `More information related to implementation is provided in respective folders.`

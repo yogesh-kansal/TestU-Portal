@@ -6,6 +6,6 @@ module.exports={
     baseUrl: process.env.BACKENDURL || 'http://localhost:3001',
     clientUrl: process.env.FRONTENDURL || 'http://localhost:3000',
     PORT: process.env.PORT || 3001,
-    EMAIL: process.env.EMAIL || 'admin@gmail.com',
-    PASS: process.env.PASS || 'admin'
+    EMAIL: process.env.EMAIL || '',
+    PASS: process.env.PASS || ''
 };

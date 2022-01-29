@@ -139,10 +139,10 @@ class Edit extends Component {
             <div className="container mt-5 pt-1 user">
                 <div className="main-body">
 
-                    <div class="row gutters-sm justify-content-center">
+                    <div className="row gutters-sm justify-content-center">
                         <div className="col-md-9">
                             <div className="row">
-                                <div class="col card">
+                                <div className="col card">
                                     <div className="card-header border-0 my-2 mx-1">
                                         <div className="row align-items-center">
                                             <h5 className="col-auto ms-2 text-danger">Profile Info.</h5>
@@ -160,21 +160,21 @@ class Edit extends Component {
                                         <LoadingSpinner />
                                     :
                                     
-                                        <div class="card-body">
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Email</h6>
+                                        <div className="card-body">
+                                            <div className="row mb-3">
+                                                <div className="col-sm-3">
+                                                    <h6 className="mb-0">Email</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" class="form-control" value={this.state.emailId} readOnly/>
+                                                <div className="col-sm-9 text-secondary">
+                                                    <input type="text" className="form-control" value={this.state.emailId} readOnly/>
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">User Name</h6>
+                                            <div className="row mb-3">
+                                                <div className="col-sm-3">
+                                                    <h6 className="mb-0">User Name</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary">
+                                                <div className="col-sm-9 text-secondary">
                                                     <Input type="text" id="new_name"
                                                         valid={errs.user===''}
                                                         invalid={errs.user!==''}
@@ -184,11 +184,11 @@ class Edit extends Component {
                                                 </div>
                                             </div>
                                     
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Institute</h6>
+                                            <div className="row mb-3">
+                                                <div className="col-sm-3">
+                                                    <h6 className="mb-0">Institute</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary">
+                                                <div className="col-sm-9 text-secondary">
                                                     <Input type="text" id="new_institute"
                                                         valid={errs.ins===''}
                                                         invalid={errs.ins!==''}
@@ -197,9 +197,9 @@ class Edit extends Component {
                                                         onChange={this.handleChange}/>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-3"></div>
-                                                <div class="col-sm-9 text-secondary">
+                                            <div className="row">
+                                                <div className="col-sm-3"></div>
+                                                <div className="col-sm-9 text-secondary">
                                                     <button className="btn btn-outline-primary" type="submit"
                                                     onClick={this.updateUserInfo}>Edit Info.</button>
                                                 </div>
@@ -210,7 +210,7 @@ class Edit extends Component {
                             </div>
 
                             <div className="row mt-3">
-                                <div class="col card">
+                                <div className="col card">
                                     <div className="card-header border-0 my-2 mx-1">
                                         <div className="row align-items-center">
                                             <h5 className="col-auto ms-2 text-danger">Password Reset</h5>
@@ -222,12 +222,12 @@ class Edit extends Component {
                                         <LoadingSpinner />
                                     :
                                     
-                                        <div class="card-body">
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Old password</h6>
+                                        <div className="card-body">
+                                            <div className="row mb-3">
+                                                <div className="col-sm-3">
+                                                    <h6 className="mb-0">Old password</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary">
+                                                <div className="col-sm-9 text-secondary">
                                                     <Input type="password" id="old_pass"
                                                         value={this.state.old_pass}
                                                         valid={true}
@@ -235,11 +235,11 @@ class Edit extends Component {
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">New Password</h6>
+                                            <div className="row mb-3">
+                                                <div className="col-sm-3">
+                                                    <h6 className="mb-0">New Password</h6>
                                                 </div>
-                                                <div class="col-sm-9 text-secondary">
+                                                <div className="col-sm-9 text-secondary">
                                                     <Input type="password" id="new_pass"
                                                         value={this.state.new_pass}
                                                         valid={errs.pass===''}
@@ -248,9 +248,9 @@ class Edit extends Component {
                                                 </div>
                                             </div>
                                     
-                                            <div class="row">
-                                                <div class="col-sm-3"></div>
-                                                <div class="col-sm-9 text-secondary">
+                                            <div className="row">
+                                                <div className="col-sm-3"></div>
+                                                <div className="col-sm-9 text-secondary">
                                                     <button className="btn btn-outline-primary" type="button"
                                                     onClick={this.resetPassword}>Reset Password</button>
                                                 </div>

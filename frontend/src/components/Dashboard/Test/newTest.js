@@ -197,7 +197,7 @@ class NewTest extends Component {
                             <form onSubmit={this.handleSubmit}>
                             <div className="row mb-2">
                                     <div className="col-auto fs-4">
-                                    <i class="bi bi-award-fill"></i>
+                                    <i className="bi bi-award-fill"></i>
                                         Info. Sections 
                                         <hr></hr>
                                     </div>

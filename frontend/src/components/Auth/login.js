@@ -122,7 +122,7 @@ class Login extends Component {
                                     </div>
 
                                     <div class="row">
-                                        <p class="text-center">Forgot password? <span className="link-info" id="link" onClick={() =>this.setState({isForgot:true})}>Click Me</span></p>
+                                        <p className="text-center">Forgot password? <span className="link-info" id="link" onClick={() =>this.setState({isForgot:true})}>Click Me</span></p>
                                     </div>
                             </>
                              :
@@ -130,8 +130,8 @@ class Login extends Component {
                                 <button type="button" className="btn btn-primary btn-block sub" onClick={this.reset}>Send Email to reset password</button>
                             </div>
                             }
-                                <div class="row">
-                                    <p class="text-center">Don't have account? <a className=" link-info fs-5" id="link" href="/signup">Sign up
+                                <div className="row">
+                                    <p className="text-center">Don't have account? <a className=" link-info fs-5" id="link" href="/signup">Sign up
                                         here</a></p>
                                 </div>
 

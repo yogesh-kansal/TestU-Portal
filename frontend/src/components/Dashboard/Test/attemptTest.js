@@ -111,7 +111,7 @@ class TakeTest extends Component {
                                         }}>START
                                 </button>
                             </div>
-                            <div class="alert alert-warning fs-6 mt-3" role="alert">
+                            <div className="alert alert-warning fs-6 mt-3" role="alert">
                                 After clicking <strong>START</strong> If you navigate to other tab or close tab your test will automatically submit!!!
                             </div>
                         </div>
