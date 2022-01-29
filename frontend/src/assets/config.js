@@ -1,1 +1,1 @@
-exports.baseUrl=process.env.BACKENDURL || 'http://localhost:3001';
+exports.baseUrl=process.env.REACT_APP_BACKENDURL || 'http://localhost:3001';
